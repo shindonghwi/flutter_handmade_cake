@@ -60,17 +60,17 @@ flutter:
           weight: 900
 
 
-#flutter_native_splash:
-#  full: true
-#  image: assets/imgs/image_splash.png
-#  image_dark: assets/imgs/image_splash.png
-#  color: "#FFFFFF"
-#  color_dark: "#FFFFFF"
-#
-#  # Android 12 이상 버전에서 적용
-#  android_12:
-#    full: true
-#    image: assets/imgs/image_splash.png
-#    image_dark: assets/imgs/image_splash.png
-#    color: "#FFFFFF"
-#    color_dark: "#FFFFFF"
+flutter_native_splash:
+  full: true
+  image: assets/imgs/image_splash.png
+  image_dark: assets/imgs/image_splash.png
+  color: "#01205F"
+  color_dark: "#01205F"
+
+  # Android 12 이상 버전에서 적용
+  android_12:
+    full: true
+    image: assets/imgs/image_splash.png
+    image_dark: assets/imgs/image_splash.png
+    color: "#01205F"
+    color_dark: "#01205F"

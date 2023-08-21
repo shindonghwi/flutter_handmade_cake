@@ -26,7 +26,7 @@ class HandMadeCakeApp extends StatelessWidget {
 
             debugShowCheckedModeBanner: true,
 
-            initialRoute: RoutingScreen.SignIn.route,
+            initialRoute: RoutingScreen.Splash.route,
             routes: RoutingScreen.getAppRoutes(),
 
             navigatorKey: HandMadeCakeGlobalVariable.naviagatorState,
