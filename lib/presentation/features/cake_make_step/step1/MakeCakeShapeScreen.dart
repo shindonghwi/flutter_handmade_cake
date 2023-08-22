@@ -27,7 +27,7 @@ class MakeCakeShapeScreen extends HookWidget {
 
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
-      appBar: TopBarIconTitleText(
+      appBar: const TopBarIconTitleText(
         content: "1단계 - 모양 선택하기",
       ),
       body: SafeArea(

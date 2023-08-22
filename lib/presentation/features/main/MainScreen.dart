@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
 import 'package:handmade_cake/presentation/features/main/home/HomeScreen.dart';
+import 'package:handmade_cake/presentation/features/main/mypage/MyPageScreen.dart';
+import 'package:handmade_cake/presentation/features/main/orders/OrdersScreen.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
@@ -40,12 +42,8 @@ class MainScreen extends HookWidget {
                 index: currentIndex.value,
                 children: const [
                   HomeScreen(),
-                  Center(
-                    child: Text("주문내역"),
-                  ),
-                  Center(
-                    child: Text("내 정보"),
-                  ),
+                  OrdersScreen(),
+                  MyPageScreen(),
                 ],
               ),
             ),
