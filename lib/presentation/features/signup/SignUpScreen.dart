@@ -123,7 +123,13 @@ class SignUpScreen extends HookWidget {
                   margin: const EdgeInsets.only(top: 60, bottom: 40),
                   width: double.infinity,
                   child: PrimaryFilledButton.normalRect(
-                    content: "가입하기",
+                    content: Text(
+                      '가입하기',
+                      style: getTextTheme(context).semiBold.copyWith(
+                        color: getColorScheme(context).white,
+                        fontSize: 16,
+                      ),
+                    ),
                     isActivated: RegUtil.checkEmail(emailText.value) &&
                         pw1Text.value.isNotEmpty &&
                         pw2Text.value.isNotEmpty &&

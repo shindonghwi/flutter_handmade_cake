@@ -72,9 +72,20 @@ class SignInScreen extends HookWidget {
                 Container(
                   width: double.infinity,
                   child: PrimaryFilledButton.normalRect(
+                    content: Text(
+                      '로그인',
+                      style: getTextTheme(context).semiBold.copyWith(
+                            color: getColorScheme(context).white,
+                            fontSize: 16,
+                          ),
+                    ),
                     isActivated: true,
-                    onPressed: () {},
-                    content: '로그인',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        nextFadeInOutScreen(RoutingScreen.Main.route),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 12),
