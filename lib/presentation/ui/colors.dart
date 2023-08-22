@@ -9,7 +9,6 @@ extension StyleColor on ColorScheme{
 
 
 
-
   Color get colorPrimary900 => brightness == Brightness.light ? Color(0xFF01205F) : Color(0xFF01205F);
 
 

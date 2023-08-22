@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
  * }
  */
 const defaultTextStyle = TextStyle(
-  fontFamily: 'NotoSansKR',
+  fontFamily: 'Pretendard',
   overflow: TextOverflow.ellipsis,
   letterSpacing: 0,
 );
