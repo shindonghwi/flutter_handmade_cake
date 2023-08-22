@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:handmade_cake/navigation/Route.dart';
+import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/theme.dart';
+import 'package:handmade_cake/presentation/utils/Common.dart';
 
 class HandMadeCakeApp extends StatelessWidget {
   const HandMadeCakeApp({super.key});
@@ -16,8 +18,18 @@ class HandMadeCakeApp extends StatelessWidget {
             onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
 
             // 시스템 테마 설정 (라이트, 다크 모드)
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
+            theme: AppTheme.lightTheme.copyWith(
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: getColorScheme(context).colorPrimary900,
+                selectionColor: getColorScheme(context).colorPrimary900.withOpacity(0.2),
+              ),
+            ),
+            darkTheme: AppTheme.darkTheme.copyWith(
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: getColorScheme(context).colorPrimary900,
+                selectionColor: getColorScheme(context).colorPrimary900.withOpacity(0.2),
+              ),
+            ),
             themeMode: ThemeMode.system,
 
             // 앱 Localization ( 한국어 지원 )
