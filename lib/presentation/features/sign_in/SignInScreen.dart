@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:handmade_cake/navigation/PageMoveUtil.dart';
+import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
 import 'package:handmade_cake/presentation/components/textfield/UnderLineTextField.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
@@ -43,7 +45,7 @@ class SignInScreen extends HookWidget {
                   height: 120,
                 ),
                 SizedBox(
-                  height: 72,
+                  height: 68,
                   child: UnderLineTextField(
                     maxLength: 9999,
                     hint: "이메일을 입력해주세요",
@@ -57,7 +59,7 @@ class SignInScreen extends HookWidget {
                 ),
                 // const SizedBox(height: 8),
                 SizedBox(
-                  height: 72,
+                  height: 68,
                   child: UnderLineTextField(
                     maxLength: 9999,
                     hint: "비밀번호를 입력해주세요",
@@ -77,28 +79,35 @@ class SignInScreen extends HookWidget {
                 ),
                 const SizedBox(height: 12),
                 Clickable(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RichText(
-                        text: TextSpan(
-                            text: "아직 회원이 아니신가요? ",
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "아직 회원이 아니신가요? ",
+                        style: getTextTheme(context).medium.copyWith(
+                              color: getColorScheme(context).colorGray500,
+                              fontSize: 14,
+                            ),
+                        children: [
+                          TextSpan(
+                            text: "회원가입",
                             style: getTextTheme(context).medium.copyWith(
                                   color: getColorScheme(context).colorGray500,
                                   fontSize: 14,
+                                  decoration: TextDecoration.underline,
                                 ),
-                            children: [
-                              TextSpan(
-                                text: "회원가입",
-                                style: getTextTheme(context).medium.copyWith(
-                                      color: getColorScheme(context).colorGray500,
-                                      fontSize: 14,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                              )
-                            ]),
+                          )
+                        ],
                       ),
                     ),
-                    onPressed: () {})
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      nextSlideScreen(RoutingScreen.SignUp.route),
+                    );
+                  },
+                )
               ],
             ),
           ),
