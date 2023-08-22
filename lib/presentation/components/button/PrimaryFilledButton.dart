@@ -21,6 +21,16 @@ class PrimaryFilledButton extends HookWidget {
         height = 52,
         super(key: key);
 
+  const PrimaryFilledButton.largeRect({
+    Key? key,
+    this.leftIcon,
+    required this.content,
+    required this.isActivated,
+    this.onPressed,
+  })  : borderRadius = 10,
+        height = 56,
+        super(key: key);
+
   const PrimaryFilledButton.largeRound({
     Key? key,
     this.leftIcon,

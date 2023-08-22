@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:handmade_cake/navigation/PageMoveUtil.dart';
+import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
@@ -51,6 +53,12 @@ class FirstTab extends HookWidget {
             width: double.infinity,
             margin: const EdgeInsets.symmetric(horizontal: 24),
             child: PrimaryFilledButton.largeRound(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  nextSlideScreen(RoutingScreen.MakeCakeShape.route),
+                );
+              },
               content: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
