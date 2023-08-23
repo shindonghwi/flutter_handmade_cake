@@ -31,7 +31,7 @@ class SplashScreen extends HookWidget {
     }, const []);
 
     return BaseScaffold(
-      backgroundColor: getColorScheme(context).colorPrimary900,
+      backgroundColor: getColorScheme(context).colorPrimary500,
       body: Center(
         child: FadeTransition(
           opacity: animationController,

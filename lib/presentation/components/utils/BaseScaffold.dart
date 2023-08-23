@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:handmade_cake/presentation/components/canvas/ResizableImage.dart';
+import 'package:handmade_cake/presentation/features/cake_make_step/step2/widgets/CakeCanvas.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class BaseScaffold extends HookWidget {
+class BaseScaffold extends HookConsumerWidget {
   final Widget body;
   final Widget? bottomNavigationBar;
   final bool extendBody;
   final Color? backgroundColor;
   final PreferredSizeWidget? appBar;
+  final bool isCanvasMode;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
@@ -16,18 +19,26 @@ class BaseScaffold extends HookWidget {
     this.appBar,
     this.backgroundColor,
     this.floatingActionButton,
+    this.isCanvasMode = false,
     this.bottomNavigationBar,
     this.floatingActionButtonLocation,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+
+
     return Scaffold(
       appBar: appBar,
       backgroundColor: backgroundColor,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
+          if (isCanvasMode){
+            final focusedWidgetKeyRead = ref.read(focusedWidgetProvider.notifier);
+            focusedWidgetKeyRead.state = null;
+          }
         },
         behavior: HitTestBehavior.translucent,
         child: body,

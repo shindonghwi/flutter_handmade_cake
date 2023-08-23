@@ -48,7 +48,7 @@ class MainScreen extends HookWidget {
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: getColorScheme(context).white,
-          selectedItemColor: getColorScheme(context).colorPrimary900,
+          selectedItemColor: getColorScheme(context).colorPrimary500,
           unselectedItemColor: getColorScheme(context).colorGray300,
           currentIndex: currentIndex.value,
           onTap: (index) => currentIndex.value = index,
@@ -77,7 +77,7 @@ class MainScreen extends HookWidget {
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(
-                      getColorScheme(context).colorPrimary900,
+                      getColorScheme(context).colorPrimary500,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -90,7 +90,7 @@ class MainScreen extends HookWidget {
             );
           }).toList(),
           selectedLabelStyle: getTextTheme(context).medium.copyWith(
-                color: getColorScheme(context).colorPrimary900,
+                color: getColorScheme(context).colorPrimary500,
                 fontSize: 12,
               ),
           unselectedLabelStyle: getTextTheme(context).medium.copyWith(

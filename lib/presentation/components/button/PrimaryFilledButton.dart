@@ -50,7 +50,7 @@ class PrimaryFilledButton extends HookWidget {
         onPressed: isActivated ? () => onPressed?.call() : null,
         style: ElevatedButton.styleFrom(
           disabledBackgroundColor: getColorScheme(context).colorGray300,
-          backgroundColor: isActivated ? getColorScheme(context).colorPrimary900 : getColorScheme(context).colorGray300,
+          backgroundColor: isActivated ? getColorScheme(context).colorPrimary500 : getColorScheme(context).colorGray300,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
           ),

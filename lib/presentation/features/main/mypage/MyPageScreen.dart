@@ -86,7 +86,7 @@ class MyPageScreen extends HookWidget {
                               ),
                         ),
                         Switch.adaptive(
-                          activeColor: getColorScheme(context).colorPrimary900,
+                          activeColor: getColorScheme(context).colorPrimary500,
                           inactiveTrackColor: getColorScheme(context).colorGray300,
                           value: shippingNotification.value,
                           onChanged: (value) => shippingNotification.value = value,

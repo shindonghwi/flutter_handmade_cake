@@ -41,13 +41,13 @@ class HomeScreen extends HookWidget {
           ),
           child: TabBar(
             controller: tabController,
-            indicatorColor: getColorScheme(context).colorPrimary900,
-            labelColor: getColorScheme(context).colorPrimary900,
+            indicatorColor: getColorScheme(context).colorPrimary500,
+            labelColor: getColorScheme(context).colorPrimary500,
             unselectedLabelColor: getColorScheme(context).colorGray300,
             indicator: UnderlineTabIndicator(
               borderSide: BorderSide(
                 width: 1,
-                color: getColorScheme(context).colorPrimary900,
+                color: getColorScheme(context).colorPrimary500,
               ),
             ),
             tabs: tabList

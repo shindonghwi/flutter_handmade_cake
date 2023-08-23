@@ -66,7 +66,7 @@ class SecondTab extends HookWidget{
                         ),
                         const SizedBox(height: 20),
                         CircularProgressIndicator(
-                          color: getColorScheme(context).colorPrimary900,
+                          color: getColorScheme(context).colorPrimary500,
                           strokeWidth: 1.0,
                         ),
                       ],

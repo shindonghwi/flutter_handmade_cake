@@ -9,7 +9,7 @@ extension StyleColor on ColorScheme{
 
 
 
-  Color get colorPrimary900 => brightness == Brightness.light ? Color(0xFF01205F) : Color(0xFF01205F);
+  Color get colorPrimary500 => brightness == Brightness.light ? Color(0xFF01205F) : Color(0xFF01205F);
 
   Color get colorGray100 => brightness == Brightness.light ? Color(0xFFF5F5F5) : Color(0xFFF5F5F5);
   Color get colorGray300 => brightness == Brightness.light ? Color(0xFFE1E1E1) : Color(0xFFE1E1E1);

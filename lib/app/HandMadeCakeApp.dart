@@ -20,14 +20,14 @@ class HandMadeCakeApp extends StatelessWidget {
             // 시스템 테마 설정 (라이트, 다크 모드)
             theme: AppTheme.lightTheme.copyWith(
               textSelectionTheme: TextSelectionThemeData(
-                cursorColor: getColorScheme(context).colorPrimary900,
-                selectionColor: getColorScheme(context).colorPrimary900.withOpacity(0.2),
+                cursorColor: getColorScheme(context).colorPrimary500,
+                selectionColor: getColorScheme(context).colorPrimary500.withOpacity(0.2),
               ),
             ),
             darkTheme: AppTheme.darkTheme.copyWith(
               textSelectionTheme: TextSelectionThemeData(
-                cursorColor: getColorScheme(context).colorPrimary900,
-                selectionColor: getColorScheme(context).colorPrimary900.withOpacity(0.2),
+                cursorColor: getColorScheme(context).colorPrimary500,
+                selectionColor: getColorScheme(context).colorPrimary500.withOpacity(0.2),
               ),
             ),
             themeMode: ThemeMode.system,

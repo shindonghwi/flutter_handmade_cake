@@ -76,7 +76,7 @@ class UnderLineTextField extends HookWidget {
           keyboardType: textInputType,
           textInputAction: textInputAction,
           style: getTextTheme(context).regular.copyWith(
-                color: getColorScheme(context).colorPrimary900,
+                color: getColorScheme(context).colorPrimary500,
                 fontSize: 14,
               ),
           onSubmitted: (text) {
@@ -119,7 +119,7 @@ class UnderLineTextField extends HookWidget {
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: isSuccess.value == true && successMessage.isNotEmpty
-                    ? getColorScheme(context).colorPrimary900
+                    ? getColorScheme(context).colorPrimary500
                     : (forceErrorCheck || isSuccess.value == false) && errorMessage.isNotEmpty
                     ? getColorScheme(context).colorError500
                     : getColorScheme(context).colorGray300,
@@ -173,7 +173,7 @@ class UnderLineTextField extends HookWidget {
               Text(
                 successMessage.toString(),
                 style: getTextTheme(context).medium.copyWith(
-                  color: getColorScheme(context).colorPrimary900,
+                  color: getColorScheme(context).colorPrimary500,
                   fontSize: 12
                 ),
               ),
