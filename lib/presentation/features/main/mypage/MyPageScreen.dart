@@ -16,11 +16,11 @@ class MyPageScreen extends HookWidget {
 
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
-      appBar: TopBarTitle(
+      appBar: const TopBarTitle(
         content: "내 정보",
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -92,39 +92,6 @@ class MyPageScreen extends HookWidget {
                           onChanged: (value) => shippingNotification.value = value,
                         )
                       ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, top: 16.0, bottom: 4),
-                    child: Text(
-                      "기타",
-                      style: getTextTheme(context).medium.copyWith(
-                            fontSize: 14,
-                            color: getColorScheme(context).colorGray500,
-                          ),
-                    ),
-                  ),
-                  Clickable(
-                    onPressed: () {
-
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        "공지사항",
-                        style: getTextTheme(context).regular.copyWith(
-                              fontSize: 14,
-                              color: getColorScheme(context).black,
-                            ),
-                      ),
                     ),
                   ),
                 ],

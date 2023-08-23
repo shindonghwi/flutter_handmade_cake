@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:handmade_cake/navigation/PageMoveUtil.dart';
 import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
@@ -12,7 +13,6 @@ class SplashScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 600),
     );
@@ -21,10 +21,9 @@ class SplashScreen extends HookWidget {
       Future.delayed(const Duration(milliseconds: 300), () async {
         await animationController.forward();
         Future.delayed(const Duration(milliseconds: 1000), () {
-          Navigator.pushNamedAndRemoveUntil(
+          Navigator.pushReplacement(
             context,
-            RoutingScreen.SignIn.route,
-                (route) => false,
+            nextFadeInOutScreen(RoutingScreen.SignIn.route),
           );
         });
       });
