@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
+import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 
@@ -26,9 +27,18 @@ class TopBarIconTitleText extends HookWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SizedBox(
+      child: Container(
         width: getMediaQuery(context).size.width,
         height: 60,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(
+              color: getColorScheme(context).colorGray300,
+              width: 1,
+            ),
+          ),
+        ),
         child: Stack(
           children: [
             Align(
@@ -52,10 +62,7 @@ class TopBarIconTitleText extends HookWidget implements PreferredSizeWidget {
               alignment: Alignment.center,
               child: Text(
                 content,
-                style: getTextTheme(context).medium.copyWith(
-                  color: Colors.black,
-                  fontSize: 16
-                ),
+                style: getTextTheme(context).medium.copyWith(color: Colors.black, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -70,8 +77,7 @@ class TopBarIconTitleText extends HookWidget implements PreferredSizeWidget {
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
                         rightText ?? "",
-                        style: getTextTheme(context).medium.copyWith(
-                        ),
+                        style: getTextTheme(context).medium.copyWith(),
                       ),
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handmade_cake/presentation/features/main/home/widgets/FirstTab.dart';
 import 'package:handmade_cake/presentation/features/main/home/widgets/SecondTab.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
@@ -20,6 +21,14 @@ class HomeScreen extends HookWidget {
 
     return Column(
       children: [
+        Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 133,
+            height: 33,
+            child: SvgPicture.asset("assets/imgs/image_home_appbar.svg"),
+          ),
+        ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
@@ -62,7 +71,7 @@ class HomeScreen extends HookWidget {
             controller: tabController,
             children: [
               const FirstTab(),
-              const SecondTab(),
+              SecondTab(),
             ],
           ),
         ),

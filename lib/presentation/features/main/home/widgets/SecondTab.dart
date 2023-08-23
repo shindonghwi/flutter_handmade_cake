@@ -1,14 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 
-class SecondTab extends HookWidget {
+class SecondTab extends HookWidget{
   const SecondTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    useAutomaticKeepAlive();
+
     final List<String> imageUrls = [
       "https://m.lgart.com/Down/Perf/202212/%EA%B0%80%EB%A1%9C%EA%B4%91%EA%B3%A01920x1080-3.jpg",
       "https://marketplace.canva.com/EAD2xI0GoM0/1/0/800w/canva-%ED%95%98%EB%8A%98-%EC%95%BC%EC%99%B8-%EC%9E%90%EC%97%B0-%EC%98%81%EA%B0%90-%EC%9D%B8%EC%9A%A9%EB%AC%B8-%EB%8D%B0%EC%8A%A4%ED%81%AC%ED%86%B1-%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4-CQJp-Sw9JRs.jpg",
@@ -43,38 +46,38 @@ class SecondTab extends HookWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
-                child: Image.network(
-                  imageUrls[index],
-                  fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    }
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/imgs/image_home_appbar.svg",
-                            fit: BoxFit.scaleDown,
-                          ),
-                          const SizedBox(height: 20),
-                          CircularProgressIndicator(
-                            color: getColorScheme(context).colorPrimary900,
-                            strokeWidth: 1.0,
-                          ),
-                        ],
+                child: CachedNetworkImage(
+                  imageUrl: imageUrls[index],
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
                       ),
-                    );
-                  },
-                  errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                    return Center(
-                      child: SvgPicture.asset(
-                        "assets/imgs/image_home_appbar.svg",
-                        fit: BoxFit.scaleDown,
-                      ),
-                    );
-                  },
+                    ),
+                  ),
+                  placeholder: (context, url) =>Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/imgs/image_home_appbar.svg",
+                          fit: BoxFit.scaleDown,
+                        ),
+                        const SizedBox(height: 20),
+                        CircularProgressIndicator(
+                          color: getColorScheme(context).colorPrimary900,
+                          strokeWidth: 1.0,
+                        ),
+                      ],
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Center(
+                    child: SvgPicture.asset(
+                      "assets/imgs/image_home_appbar.svg",
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
                 ),
               ),
             );

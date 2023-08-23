@@ -27,26 +27,12 @@ class MainScreen extends HookWidget {
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: 133,
-                height: 33,
-                child: SvgPicture.asset("assets/imgs/image_home_appbar.svg"),
-              ),
-            ),
-            Expanded(
-              child: IndexedStack(
-                index: currentIndex.value,
-                children: const [
-                  HomeScreen(),
-                  OrdersScreen(),
-                  MyPageScreen(),
-                ],
-              ),
-            ),
+        child: IndexedStack(
+          index: currentIndex.value,
+          children: const [
+            HomeScreen(),
+            OrdersScreen(),
+            MyPageScreen(),
           ],
         ),
       ),
