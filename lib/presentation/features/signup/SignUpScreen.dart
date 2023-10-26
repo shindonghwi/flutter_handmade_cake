@@ -37,7 +37,7 @@ class SignUpScreen extends HookConsumerWidget {
     final allAgree = useState(false);
     final agree1 = useState(false);
     final agree2 = useState(false);
-
+    //
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (agree1.value && agree2.value == true) {
@@ -203,21 +203,27 @@ class SignUpScreen extends HookConsumerWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 16.0, left: 8.0),
                           child: Clickable(
-                            onPressed: () {},
+                            onPressed: () {
+                              allAgree.value = !allAgree.value;
+                              agree1.value = allAgree.value;
+                              agree2.value = allAgree.value;
+                            },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: BasicBorderCheckBox(
-                                isChecked: allAgree.value,
-                                onChange: (value) {
-                                  allAgree.value = value;
-                                  agree1.value = value;
-                                  agree2.value = value;
-                                },
-                                label: "전체 동의합니다",
-                                textStyle: getTextTheme(context).medium.copyWith(
-                                      fontSize: 16,
-                                      color: getColorScheme(context).black,
-                                    ),
+                              child: IgnorePointer(
+                                child: BasicBorderCheckBox(
+                                  isChecked: allAgree.value,
+                                  onChange: (value) {
+                                    allAgree.value = !allAgree.value;
+                                    agree1.value = allAgree.value;
+                                    agree2.value = allAgree.value;
+                                  },
+                                  label: "전체 동의합니다",
+                                  textStyle: getTextTheme(context).medium.copyWith(
+                                        fontSize: 16,
+                                        color: getColorScheme(context).black,
+                                      ),
+                                ),
                               ),
                             ),
                           ),
@@ -235,14 +241,16 @@ class SignUpScreen extends HookConsumerWidget {
                               onPressed: () => agree1.value = !agree1.value,
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                                child: BasicBorderCheckBox(
-                                  isChecked: agree1.value,
-                                  onChange: (value) => agree1.value = value,
-                                  label: "[필수] 메이크모먼트 이용약관 동의",
-                                  textStyle: getTextTheme(context).medium.copyWith(
-                                        fontSize: 14,
-                                        color: getColorScheme(context).colorGray500,
-                                      ),
+                                child: IgnorePointer(
+                                  child: BasicBorderCheckBox(
+                                    isChecked: agree1.value,
+                                    onChange: (value) => agree1.value = value,
+                                    label: "[필수] 메이크모먼트 이용약관 동의",
+                                    textStyle: getTextTheme(context).medium.copyWith(
+                                          fontSize: 14,
+                                          color: getColorScheme(context).colorGray500,
+                                        ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -267,17 +275,19 @@ class SignUpScreen extends HookConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Clickable(
-                              onPressed: () => agree1.value = !agree1.value,
+                              onPressed: () => agree2.value = !agree2.value,
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                                child: BasicBorderCheckBox(
-                                  isChecked: agree2.value,
-                                  onChange: (value) => agree2.value = value,
-                                  label: "[필수] 개인정보 수집 및 이용에 동의",
-                                  textStyle: getTextTheme(context).medium.copyWith(
-                                        fontSize: 14,
-                                        color: getColorScheme(context).colorGray500,
-                                      ),
+                                child: IgnorePointer(
+                                  child: BasicBorderCheckBox(
+                                    isChecked: agree2.value,
+                                    onChange: (value) => agree2.value = value,
+                                    label: "[필수] 개인정보 수집 및 이용에 동의",
+                                    textStyle: getTextTheme(context).medium.copyWith(
+                                          fontSize: 14,
+                                          color: getColorScheme(context).colorGray500,
+                                        ),
+                                  ),
                                 ),
                               ),
                             ),

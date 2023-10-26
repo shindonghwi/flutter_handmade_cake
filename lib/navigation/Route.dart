@@ -10,6 +10,7 @@ import 'package:handmade_cake/presentation/features/main/orders/OrdersScreen.dar
 import 'package:handmade_cake/presentation/features/sign_in/SignInScreen.dart';
 import 'package:handmade_cake/presentation/features/signup/SignUpScreen.dart';
 import 'package:handmade_cake/presentation/features/splash/SplashScreen.dart';
+import 'package:handmade_cake/presentation/features/withdrawal/WithdrawalScreen.dart';
 
 enum RoutingScreen {
   Splash(route: "/splash"), // 스플래시ㅣ
@@ -18,6 +19,7 @@ enum RoutingScreen {
   Main(route: "/main"), // 메인
   Orders(route: "/orders"), // 주문 정보
   MyPage(route: "/mypage"), // 내 정보
+  Withdrawal(route: "/withdrawal"), // 회원탈퇴 화면
   MakeCakeShape(route: "/make/shape"), // 케이크 모양 선택
   MakeCakeDrawing(route: "/make/drawing"), // 케이크 제작 그리기
   MakeCakeInfo(route: "/make/info"), // 케이크 정보 작성
@@ -38,6 +40,7 @@ enum RoutingScreen {
       RoutingScreen.Main.route: (context) => const MainScreen(),
       RoutingScreen.Orders.route: (context) => const OrdersScreen(),
       RoutingScreen.MyPage.route: (context) => const MyPageScreen(),
+      RoutingScreen.Withdrawal.route: (context) => const WithdrawalScreen(),
       RoutingScreen.MakeCakeShape.route: (context) => const MakeCakeShapeScreen(),
       RoutingScreen.MakeCakeDrawing.route: (context) => const MakeCakeDrawingScreen(),
       RoutingScreen.MakeCakeInfo.route: (context) => const MakeCakeInfoScreen(),
@@ -61,6 +64,8 @@ enum RoutingScreen {
       return const OrdersScreen();
     } else if (route == RoutingScreen.MyPage.route) {
       return const MyPageScreen();
+    }else if (route == RoutingScreen.Withdrawal.route) {
+      return const WithdrawalScreen();
     } else if (route == RoutingScreen.MakeCakeShape.route) {
       return const MakeCakeShapeScreen();
     } else if (route == RoutingScreen.MakeCakeDrawing.route) {
