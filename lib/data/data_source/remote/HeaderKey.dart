@@ -1,7 +1,6 @@
 class HeaderKey{
   /// required
   static const String AcceptLanguage = 'Accept-Language';
-  static const String ApplicationTimeZone = 'Application-Time-Zone';
   static const String Authorization = 'Authorization';
 
   /// base

@@ -25,7 +25,6 @@ class Service {
     HeaderKey.AcceptLanguage: 'en-US',
     HeaderKey.Accept: '*/*',
     HeaderKey.Connection: 'keep-alive',
-    HeaderKey.ApplicationTimeZone: 'Asia/Seoul',
   };
 
   static Future<void> initializeHeaders() async {
