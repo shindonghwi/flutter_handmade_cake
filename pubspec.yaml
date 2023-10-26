@@ -29,6 +29,7 @@ dependencies:
   cached_network_image: ^3.2.3
   device_info_plus: ^9.0.3
   connectivity_plus: ^4.0.2
+  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:

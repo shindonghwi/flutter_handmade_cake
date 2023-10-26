@@ -1,11 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
+import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
+import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
+import 'package:photo_view/photo_view.dart';
 
-class SecondTab extends HookWidget{
+class SecondTab extends HookWidget {
   const SecondTab({super.key});
 
   @override
@@ -13,16 +15,69 @@ class SecondTab extends HookWidget{
     useAutomaticKeepAlive();
 
     final List<String> imageUrls = [
-      "https://m.lgart.com/Down/Perf/202212/%EA%B0%80%EB%A1%9C%EA%B4%91%EA%B3%A01920x1080-3.jpg",
-      "https://marketplace.canva.com/EAD2xI0GoM0/1/0/800w/canva-%ED%95%98%EB%8A%98-%EC%95%BC%EC%99%B8-%EC%9E%90%EC%97%B0-%EC%98%81%EA%B0%90-%EC%9D%B8%EC%9A%A9%EB%AC%B8-%EB%8D%B0%EC%8A%A4%ED%81%AC%ED%86%B1-%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4-CQJp-Sw9JRs.jpg",
-      "https://blog.kakaocdn.net/dn/9Yg2I/btqNJwwHIUS/WNhMAC34BopDSvpKmhy9X0/img.jpg",
-      "https://mblogthumb-phinf.pstatic.net/MjAxOTA3MjlfMjAx/MDAxNTY0NDAxNjEzNDgy.jrcSPgSZ1C52bTn0Lt9fhdX7qFPUts6qI7bp17GcjVsg.CfQRIEKV2qNwFFH-29TuveeZhB5PtgjyRzZoQ0dessUg.JPEG.msme3/940581-popular-disney-wallpaper-for-computer-1920x1080-for-iphone-5.jpg?type=w800",
-      "https://blog.kakaocdn.net/dn/9Yg2I/btqNJwwHIUS/WNhMAC34BopDSvpKmhy9X0/img.jpg",
-      "https://www.10wallpaper.com/wallpaper/2560x1600/1702/Sea_dawn_nature_sky-High_Quality_Wallpaper_2560x1600.jpg",
-      "htaatps://blog.kakaocdn.net/dn/daPJMD/btqCinzhh9J/akDK6BMiG3QKH3XWXwobx1/img.jpg",
+      "assets/imgs/cake1.png",
+      "assets/imgs/cake2.png",
+      "assets/imgs/cake3.png",
+      "assets/imgs/cake4.png",
+      "assets/imgs/cake5.png",
+      "assets/imgs/cake6.png",
+      "assets/imgs/cake7.png",
+      "assets/imgs/cake8.png",
+      "assets/imgs/cake9.png",
     ];
 
     final scrollController = useScrollController();
+
+    void showImage(BuildContext context, String imagePath) {
+      showGeneralDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierColor: Colors.black.withOpacity(0.8),
+        // dim 처리 부분의 색상
+        transitionDuration: const Duration(milliseconds: 200),
+        pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: PhotoView(
+                        imageProvider: AssetImage(imagePath),
+                        minScale: PhotoViewComputedScale.covered,
+                        maxScale: PhotoViewComputedScale.covered,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(top: 60.0),
+                    child: PrimaryFilledButton.normalRect(
+                      content: Text(
+                        "닫기",
+                        style: getTextTheme(context).bold.copyWith(
+                              fontSize: 16,
+                              color: getColorScheme(context).white,
+                            ),
+                      ),
+                      isActivated: true,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
 
     return Center(
       child: Container(
@@ -42,41 +97,17 @@ class SecondTab extends HookWidget{
                   color: getColorScheme(context).colorGray300,
                   width: 1.0,
                 ),
-                borderRadius: BorderRadius.circular(5.0),
+                borderRadius: BorderRadius.circular(8.0),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: CachedNetworkImage(
-                  imageUrl: imageUrls[index],
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  placeholder: (context, url) =>Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/imgs/image_home_appbar.svg",
-                          fit: BoxFit.scaleDown,
-                        ),
-                        const SizedBox(height: 20),
-                        CircularProgressIndicator(
-                          color: getColorScheme(context).colorPrimary500,
-                          strokeWidth: 1.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Center(
-                    child: SvgPicture.asset(
-                      "assets/imgs/image_home_appbar.svg",
-                      fit: BoxFit.scaleDown,
-                    ),
+                borderRadius: BorderRadius.circular(8.0),
+                child: Clickable(
+                  onPressed: () {
+                    showImage(context, imageUrls[index]);
+                  },
+                  child: Image.asset(
+                    imageUrls[index],
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
