@@ -16,4 +16,7 @@ class MeInfoNotifier extends StateNotifier<ResponseMeInfoModel?> {
     debugPrint("updateMeInfo : $meInfo");
     state = meInfo;
   }
+
+  ResponseMeInfoModel? getInfo() => state;
+
 }

@@ -23,6 +23,12 @@ class HandMadeCakeApp extends StatelessWidget {
                 cursorColor: getColorScheme(context).colorPrimary500,
                 selectionColor: getColorScheme(context).colorPrimary500.withOpacity(0.2),
               ),
+              dialogTheme: DialogTheme(
+                backgroundColor: getColorScheme(context).white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
             darkTheme: AppTheme.darkTheme.copyWith(
               textSelectionTheme: TextSelectionThemeData(
