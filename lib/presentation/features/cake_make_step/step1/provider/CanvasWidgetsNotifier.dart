@@ -27,12 +27,11 @@ class CanvasWidgetsNotifier extends StateNotifier<List<Widget>> {
     debugPrint("widget count: ${state.length}");
   }
 
+  int getSize() => state.length;
 
-  void clearDecoration() {
-    if (state.isNotEmpty) {
-      state = [state.first];
-      debugPrint("All decorations cleared. Remaining widget count: ${state.length}");
-    }
+  void clearAll() {
+    state = [];
+    debugPrint("All decorations cleared. Remaining widget count: ${state.length}");
   }
 
 }

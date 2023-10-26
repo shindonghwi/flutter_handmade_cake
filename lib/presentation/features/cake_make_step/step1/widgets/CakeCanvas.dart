@@ -19,8 +19,11 @@ class CakeCanvas extends HookConsumerWidget {
     debugPrint("canvasWidgets: ${canvasWidgets.length}");
 
     useEffect(() {
-      canvasWidgetsRead.clearDecoration();
-      return null;
+      return (){
+        Future((){
+          canvasWidgetsRead.clearAll();
+        });
+      };
     }, []);
 
     // useEffect(() {

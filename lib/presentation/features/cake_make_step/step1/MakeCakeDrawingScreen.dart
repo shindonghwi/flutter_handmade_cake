@@ -88,7 +88,7 @@ class MakeCakeDrawingScreen extends HookWidget {
                     ),
                     const CakeCanvas(),
                     const ContentCakeOption(),
-                    const ContentCakeDecoration(),
+                    ContentCakeDecoration(),
                   ],
                 ),
               ],

@@ -3,8 +3,6 @@ import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/CanvasWidgetsNotifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final makeCakeSheetProvider = StateProvider.autoDispose<String>((ref) => "");
-
 class ContentCakeSheet extends HookConsumerWidget {
   const ContentCakeSheet({super.key});
 

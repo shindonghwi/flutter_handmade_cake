@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/CollectionUtil.dart';
@@ -87,25 +86,37 @@ class _ToastWidget extends HookWidget {
   Widget build(BuildContext context) {
     final animationController = useAnimationController(duration: const Duration(milliseconds: 500));
     final animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
+    final reverseNotifier = useState<ValueNotifier<bool>>(ValueNotifier<bool>(false));
+    final isDisposed = useState<bool>(false);  // <-- 추가
 
     useEffect(() {
       animationController.forward().whenComplete(() {
-        Timer(const Duration(seconds: 2), () {
-          if (animationController.status == AnimationStatus.completed && !animationController.isDismissed) {
-            animationController.reverse().whenComplete(() {
-              // 추가: 애니메이션 상태가 정말로 끝났는지 확인
-              if (animationController.status == AnimationStatus.dismissed) {
-                onDismissed();
-              }
-            });
+        Future.delayed(const Duration(seconds: 2), () {
+          if (!animationController.isDismissed && !isDisposed.value) {
+            reverseNotifier.value.value = true;
           }
         });
       });
+
+      // 리스너 추가
+      void reverseNotifierListener() {
+        if (reverseNotifier.value.value && !animationController.isDismissed) {
+          animationController.reverse().whenComplete(() {
+            if (animationController.status == AnimationStatus.dismissed) {
+              onDismissed();
+            }
+          });
+        }
+      }
+
+      reverseNotifier.value.addListener(reverseNotifierListener);
+
       return () {
-        // 위젯이 사라질 때 애니메이션 컨트롤러를 정리
-        animationController.dispose;
+        reverseNotifier.value.dispose;
+        reverseNotifier.value.removeListener(reverseNotifierListener);
       };
     }, const []);
+
 
     Color backgroundColor = getColorScheme(context).colorPrimary500;
 
