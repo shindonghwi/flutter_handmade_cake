@@ -76,7 +76,7 @@ class UnderLineTextField extends HookWidget {
           keyboardType: textInputType,
           textInputAction: textInputAction,
           style: getTextTheme(context).regular.copyWith(
-                color: getColorScheme(context).colorPrimary500,
+                color: getColorScheme(context).black,
                 fontSize: 14,
               ),
           onSubmitted: (text) {
