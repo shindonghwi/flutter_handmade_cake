@@ -48,6 +48,10 @@ class Toast {
   }
 
   static void _addOverlayEntry(BuildContext context, ToastType type, String message) {
+    if (_overlayEntry != null) {
+      // 이미 토스트가 표시 중인 경우, 존재하는 토스트를 즉시 제거
+      _removeExistingToast();
+    }
     final overlay = Overlay.of(context, rootOverlay: true);
     _overlayEntry = OverlayEntry(
       builder: (context) => _ToastWidget(message: message, onDismissed: _removeExistingToast, type: type),
@@ -87,12 +91,20 @@ class _ToastWidget extends HookWidget {
     useEffect(() {
       animationController.forward().whenComplete(() {
         Timer(const Duration(seconds: 2), () {
-          if (animationController.status == AnimationStatus.completed) {
-            animationController.reverse().whenComplete(onDismissed);
+          if (animationController.status == AnimationStatus.completed && !animationController.isDismissed) {
+            animationController.reverse().whenComplete(() {
+              // 추가: 애니메이션 상태가 정말로 끝났는지 확인
+              if (animationController.status == AnimationStatus.dismissed) {
+                onDismissed();
+              }
+            });
           }
         });
       });
-      return null;
+      return () {
+        // 위젯이 사라질 때 애니메이션 컨트롤러를 정리
+        animationController.dispose;
+      };
     }, const []);
 
     Color backgroundColor = getColorScheme(context).colorPrimary500;

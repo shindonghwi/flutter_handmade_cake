@@ -7,6 +7,7 @@ import 'package:handmade_cake/presentation/components/toast/Toast.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
 import 'package:handmade_cake/presentation/components/view_state/LoadingView.dart';
+import 'package:handmade_cake/presentation/features/main/mypage/provider/LeaveAccountProvider.dart';
 import 'package:handmade_cake/presentation/features/sign_in/provider/MeInfoProvider.dart';
 import 'package:handmade_cake/presentation/model/UiState.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
@@ -26,6 +27,9 @@ class MyPageScreen extends HookConsumerWidget {
     final logoutState = ref.watch(logoutProvider);
     final logoutManager = ref.read(logoutProvider.notifier);
     final meInfoManager = ref.read(meInfoProvider.notifier);
+    final leaveState = ref.watch(leaveAccountProvider);
+    final leaveManager = ref.read(leaveAccountProvider.notifier);
+
 
     void goToLogin() {
       meInfoManager.updateMeInfo(null);
@@ -47,9 +51,18 @@ class MyPageScreen extends HookConsumerWidget {
             Toast.showError(context, event.errorMessage);
           },
         );
+        leaveState.when(
+          success: (event) async {
+            leaveManager.init();
+            goToLogin();
+          },
+          failure: (event) {
+            Toast.showError(context, event.errorMessage);
+          },
+        );
       });
       return null;
-    }, [logoutState]);
+    }, [logoutState, leaveState]);
 
     return BaseScaffold(
         backgroundColor: getColorScheme(context).white,
@@ -224,7 +237,9 @@ class MyPageScreen extends HookConsumerWidget {
                           ),
                         ),
                         Clickable(
-                          onPressed: () {},
+                          onPressed: () {
+                            leaveManager.requestMeLeave();
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Text(
@@ -243,7 +258,7 @@ class MyPageScreen extends HookConsumerWidget {
                 ],
               ),
             ),
-            if (logoutState is Loading) const LoadingView(),
+            if (logoutState is Loading || leaveState is Loading) const LoadingView(),
           ],
         ));
   }
