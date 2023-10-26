@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
@@ -7,8 +8,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final makeCakeColorProvider = StateProvider.autoDispose<Color>((ref) => const Color(0xFFF5F5F5));
 
-class ContentCakeColor extends HookConsumerWidget {
-  const ContentCakeColor({super.key});
+class ContentCakeFlavor extends HookConsumerWidget {
+  const ContentCakeFlavor({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

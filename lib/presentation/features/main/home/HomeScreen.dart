@@ -30,7 +30,6 @@ class HomeScreen extends HookWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -69,8 +68,8 @@ class HomeScreen extends HookWidget {
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children: [
-              const FirstTab(),
+            children: const [
+              FirstTab(),
               SecondTab(),
             ],
           ),

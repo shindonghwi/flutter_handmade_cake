@@ -56,7 +56,7 @@ class FirstTab extends HookWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  nextSlideScreen(RoutingScreen.MakeCakeShape.route),
+                  nextSlideScreen(RoutingScreen.MakeCakeDrawing.route),
                 );
               },
               content: Row(

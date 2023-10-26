@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final canvasWidgetsStateProvider = StateNotifierProvider<CanvasWidgetsNotifier, List<Widget>>(
+final canvasWidgetsProvider = StateNotifierProvider<CanvasWidgetsNotifier, List<Widget>>(
   (_) => CanvasWidgetsNotifier(),
 );
 

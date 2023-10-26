@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:handmade_cake/presentation/components/canvas/ResizableImage.dart';
-import 'package:handmade_cake/presentation/features/cake_make_step/step2/widgets/CakeCanvas.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BaseScaffold extends HookConsumerWidget {
