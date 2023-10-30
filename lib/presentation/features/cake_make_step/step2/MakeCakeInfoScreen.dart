@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:handmade_cake/navigation/PageMoveUtil.dart';
+import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/appbar/TopBarIconTitleText.dart';
+import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
 import 'package:handmade_cake/presentation/components/textfield/OutLineTextField.dart';
 import 'package:handmade_cake/presentation/components/textfield/UnderLineTextField.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
@@ -55,6 +58,30 @@ class MakeCakeInfoScreen extends HookWidget {
               const _CakePurpose(),
               const _CakeRequestTerm(),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          width: double.infinity,
+          margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+          child: PrimaryFilledButton.largeRect(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                nextSlideScreen(
+                  RoutingScreen.MakeCakePayment.route,
+                ),
+              );
+            },
+            content: Text(
+              "다음",
+              style: getTextTheme(context).semiBold.copyWith(
+                    fontSize: 16,
+                    color: getColorScheme(context).white,
+                  ),
+            ),
+            isActivated: true,
           ),
         ),
       ),
@@ -120,7 +147,6 @@ class _CakePurpose extends HookWidget {
     );
   }
 }
-
 
 class _CakeRequestTerm extends HookWidget {
   const _CakeRequestTerm({super.key});
