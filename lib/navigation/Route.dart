@@ -67,7 +67,8 @@ enum RoutingScreen {
     } else if (route == RoutingScreen.MakeCakeDrawing.route) {
       return const MakeCakeDrawingScreen();
     } else if (route == RoutingScreen.MakeCakeInfo.route) {
-      return const MakeCakeInfoScreen();
+      String? imagePath = parameter;
+      return MakeCakeInfoScreen(imagePath: imagePath);
     } else if (route == RoutingScreen.MakeCakePayment.route) {
       return const MakeCakePaymentScreen();
     } else if (route == RoutingScreen.MakeCakeComplete.route) {
