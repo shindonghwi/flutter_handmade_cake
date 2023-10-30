@@ -17,27 +17,36 @@ class ContentCakeFiling extends HookConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: filingList.map((filing) {
-        return Clickable(
-          borderRadius: 100,
-          onPressed: () => cakeFilingManager.changeFiling(filing),
+        return Flexible(
+          flex: 1,
+          fit: FlexFit.tight,
           child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: getColorScheme(context).colorPrimary500,
-                  width: 1,
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            child: Clickable(
+              borderRadius: 100,
+              onPressed: () => cakeFilingManager.changeFiling(filing),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: getColorScheme(context).colorPrimary500,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(100),
                 ),
-                borderRadius: BorderRadius.circular(100),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 13),
+                  child: Text(
+                    filing.filingType,
+                    style: getTextTheme(context).medium.copyWith(
+                      fontSize: 12,
+                      color: getColorScheme(context).colorPrimary500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
-                child: Text(
-                  filing.filingType,
-                  style: getTextTheme(context).medium.copyWith(
-                        fontSize: 12,
-                        color: getColorScheme(context).colorPrimary500,
-                      ),
-                ),
-              )),
+            ),
+          ),
         );
       }).toList(),
     );

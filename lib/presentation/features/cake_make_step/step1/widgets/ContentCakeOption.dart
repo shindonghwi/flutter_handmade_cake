@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/CakeFilingProvider.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/CakeFlavorProvider.dart';
+import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/CakeSizeProvider.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
@@ -13,6 +14,7 @@ class ContentCakeOption extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cakeFlavor = ref.watch(cakeFlavorProvider);
     final cakeFiling = ref.watch(cakeFilingProvider);
+    final cakeSize = ref.watch(cakeSizeProvider);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
@@ -87,7 +89,7 @@ class ContentCakeOption extends HookConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  "맛: 바닐라",
+                  "사이즈: ${cakeSize.sizeType}",
                   style: getTextTheme(context).medium.copyWith(
                         fontSize: 12,
                         color: getColorScheme(context).colorPrimary500,

@@ -27,7 +27,7 @@ final cakeFilingProvider = StateNotifierProvider<CakeFilingNotifier, FilingType>
 class CakeFilingNotifier extends StateNotifier<FilingType> {
   CakeFilingNotifier() : super(FilingType.Blueberry);
 
-  void changeFiling(FilingType flavor) => state = flavor;
+  void changeFiling(FilingType filingType) => state = filingType;
 
   void init() => state = FilingType.Blueberry;
 }
