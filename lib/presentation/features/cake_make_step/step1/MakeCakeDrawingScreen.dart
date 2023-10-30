@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:handmade_cake/navigation/PageMoveUtil.dart';
 import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/appbar/TopBarIconTitleText.dart';
 import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
+import 'package:handmade_cake/presentation/components/toast/Toast.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
@@ -16,6 +20,9 @@ import 'widgets/tabs/ContentCakeFiling.dart';
 import 'widgets/tabs/ContentCakeFlavor.dart';
 import 'widgets/tabs/ContentCakeSheet.dart';
 import 'widgets/tabs/ContentCakeSize.dart';
+import 'dart:ui' as ui;
+
+GlobalKey canvasGlobalKey = GlobalKey();
 
 class MakeCakeDrawingScreen extends HookWidget {
   const MakeCakeDrawingScreen({super.key});
@@ -24,12 +31,22 @@ class MakeCakeDrawingScreen extends HookWidget {
   Widget build(BuildContext context) {
     final tabList = [
       "시트",
-      "색상",
+      "맛",
       "필링잼",
       "사이즈",
     ];
 
     final tabController = useTabController(initialLength: tabList.length);
+
+    Future<Uint8List> captureImage() async {
+      double pixelRatio = MediaQuery
+          .of(context)
+          .devicePixelRatio;
+      RenderRepaintBoundary boundary = canvasGlobalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage(pixelRatio: pixelRatio);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      return byteData!.buffer.asUint8List();
+    }
 
     return BaseScaffold(
       isCanvasMode: true,
@@ -57,17 +74,18 @@ class MakeCakeDrawingScreen extends HookWidget {
                   ),
                   tabs: tabList
                       .map(
-                        (name) => Container(
+                        (name) =>
+                        Container(
                           height: 53,
                           alignment: Alignment.center,
                           child: Text(
                             name,
                             style: getTextTheme(context).medium.copyWith(
-                                  fontSize: 14,
-                                ),
+                              fontSize: 14,
+                            ),
                           ),
                         ),
-                      )
+                  )
                       .toList(),
                 ),
                 Column(
@@ -88,7 +106,7 @@ class MakeCakeDrawingScreen extends HookWidget {
                     ),
                     const CakeCanvas(),
                     const ContentCakeOption(),
-                    ContentCakeDecoration(),
+                    const ContentCakeDecoration(),
                   ],
                 ),
               ],
@@ -102,6 +120,8 @@ class MakeCakeDrawingScreen extends HookWidget {
           margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
           child: PrimaryFilledButton.largeRect(
             onPressed: () {
+              Toast.showSuccess(context, "이미지가 합성되었습니다");
+              captureImage();
               Navigator.push(
                 context,
                 nextSlideScreen(RoutingScreen.MakeCakeInfo.route),
@@ -110,9 +130,9 @@ class MakeCakeDrawingScreen extends HookWidget {
             content: Text(
               "다음",
               style: getTextTheme(context).semiBold.copyWith(
-                    fontSize: 16,
-                    color: getColorScheme(context).white,
-                  ),
+                fontSize: 16,
+                color: getColorScheme(context).white,
+              ),
             ),
             isActivated: true,
           ),

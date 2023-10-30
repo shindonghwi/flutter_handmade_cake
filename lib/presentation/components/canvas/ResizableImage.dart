@@ -4,6 +4,8 @@ import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../toast/Toast.dart';
+
 final focusedWidgetProvider = StateProvider<String?>((_) => null);
 
 class ResizableImage extends HookConsumerWidget {
@@ -43,11 +45,12 @@ class ResizableImage extends HookConsumerWidget {
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
+                  // 포커스 상태 변경
                   if (focusedWidgetKeyRead.state == widgetKey) {
                     focusedWidgetKeyRead.state = null;
-                    return;
+                  } else {
+                    focusedWidgetKeyRead.state = widgetKey;
                   }
-                  focusedWidgetKeyRead.state = widgetKey;
                 },
                 onPanUpdate: focusedWidgetKey == widgetKey
                     ? (details) {
