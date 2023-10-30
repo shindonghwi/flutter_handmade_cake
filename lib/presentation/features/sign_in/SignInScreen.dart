@@ -32,10 +32,17 @@ class SignInScreen extends HookConsumerWidget {
     final meInfoManager = ref.read(meInfoProvider.notifier);
 
     useEffect(() {
+      return () {
+        Future(() {
+          loginManager.init();
+        });
+      };
+    }, []);
+
+    useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         loginState.when(
           success: (event) async {
-            loginManager.init();
             if (loginManager.meInfo != null) {
               meInfoManager.updateMeInfo(loginManager.meInfo);
             }
@@ -158,7 +165,6 @@ class SignInScreen extends HookConsumerWidget {
                 ),
               ),
             ),
-
             if (loginState is Loading) const LoadingView()
           ],
         ),
