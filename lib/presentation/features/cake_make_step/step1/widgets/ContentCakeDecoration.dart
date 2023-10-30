@@ -18,15 +18,15 @@ class ContentCakeDecoration extends HookConsumerWidget {
     final canvasWidgetsRead = ref.read(canvasWidgetsProvider.notifier);
 
     final List<Pair<String, String>> decorations = [
-      Pair("수국", "assets/imgs/deco1.png"),
-      Pair("수국", "assets/imgs/deco2.png"),
-      Pair("장미", "assets/imgs/deco3.png"),
-      Pair("장미", "assets/imgs/deco4.png"),
-      Pair("장미", "assets/imgs/deco5.png"),
-      Pair("데이지", "assets/imgs/deco6.png"),
-      Pair("벚꽃", "assets/imgs/deco7.png"),
-      Pair("접시꽃", "assets/imgs/deco8.png"),
-      Pair("백일", "assets/imgs/deco9.png"),
+      Pair("수국", "assets/imgs/deco1.png"), // 1
+      Pair("수국", "assets/imgs/deco2.png"), // 1
+      Pair("장미", "assets/imgs/deco3.png"), // 3
+      Pair("장미", "assets/imgs/deco4.png"), // 3
+      Pair("장미", "assets/imgs/deco5.png"), // 3
+      Pair("데이지", "assets/imgs/deco6.png"), // 4
+      Pair("벚꽃", "assets/imgs/deco7.png"), // 1
+      Pair("접시꽃", "assets/imgs/deco8.png"), // 2
+      Pair("백일홍", "assets/imgs/deco9.png"), // 4
     ];
 
     return Column(
@@ -94,7 +94,7 @@ class ContentCakeDecoration extends HookConsumerWidget {
                   Positioned.fill(
                     child: Clickable(
                       onPressed: () {
-                        if (canvasWidgetsRead.getSize() == 0){
+                        if (canvasWidgetsRead.getSize() == 0) {
                           Toast.showWarning(context, "시트를 먼저 선택해주세요");
                           return;
                         }
