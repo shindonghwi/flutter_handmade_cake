@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/CakeFilingProvider.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/CakeFlavorProvider.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
@@ -11,6 +12,7 @@ class ContentCakeOption extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cakeFlavor = ref.watch(cakeFlavorProvider);
+    final cakeFiling = ref.watch(cakeFilingProvider);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
@@ -29,7 +31,7 @@ class ContentCakeOption extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   "맛: ${cakeFlavor.flavorType}",
                   style: getTextTheme(context).medium.copyWith(
@@ -56,9 +58,9 @@ class ContentCakeOption extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  "맛: 바닐라",
+                  "필링잼: ${cakeFiling.filingType}",
                   style: getTextTheme(context).medium.copyWith(
                         fontSize: 12,
                         color: getColorScheme(context).colorPrimary500,
@@ -83,7 +85,7 @@ class ContentCakeOption extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   "맛: 바닐라",
                   style: getTextTheme(context).medium.copyWith(
