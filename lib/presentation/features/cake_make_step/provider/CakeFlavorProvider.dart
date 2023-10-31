@@ -16,6 +16,18 @@ extension FlavorTypeExtension on FlavorType {
         return "레드벨벳";
     }
   }
+  String get transText {
+    switch (this) {
+      case FlavorType.Vanilla:
+        return "VA";
+      case FlavorType.Choco:
+        return "CC";
+      case FlavorType.Carrot:
+        return "CR";
+      case FlavorType.RedVelvet:
+        return "RV";
+    }
+  }
 }
 
 

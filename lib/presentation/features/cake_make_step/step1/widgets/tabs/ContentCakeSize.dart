@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
-import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/CakeSizeProvider.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../provider/CakeIndentProvider.dart';
+import '../../../provider/CakeSizeProvider.dart';
 
 class ContentCakeSize extends HookConsumerWidget {
   const ContentCakeSize({super.key});
@@ -13,6 +15,7 @@ class ContentCakeSize extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cakeSizeTypeList = [CakeSizeType.One, CakeSizeType.Two, CakeSizeType.Three];
     final cakeSizeManager = ref.read(cakeSizeProvider.notifier);
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,7 +27,10 @@ class ContentCakeSize extends HookConsumerWidget {
             margin: const EdgeInsets.symmetric(horizontal: 4),
             child: Clickable(
               borderRadius: 100,
-              onPressed: () => cakeSizeManager.changeSize(size),
+              onPressed: () {
+                cakeIndentManager.updateCakeSize(size);
+                cakeSizeManager.changeSize(size);
+              },
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(

@@ -12,7 +12,18 @@ class RequestOrderIndentDecoration {
     required this.count,
   });
 
-  factory RequestOrderIndentDecoration.fromJson(Map<String, dynamic> json) => _$RequestOrderIndentDecorationFromJson(json);
+  RequestOrderIndentDecoration copyWith({
+    String? type,
+    int? count,
+  }) {
+    return RequestOrderIndentDecoration(
+      type: type ?? this.type,
+      count: count ?? this.count,
+    );
+  }
+
+  factory RequestOrderIndentDecoration.fromJson(Map<String, dynamic> json) =>
+      _$RequestOrderIndentDecorationFromJson(json);
 
   Map<String, dynamic> toJson() => _$RequestOrderIndentDecorationToJson(this);
 }

@@ -8,74 +8,141 @@ import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton
 import 'package:handmade_cake/presentation/components/checkbox/checkbox/BasicBorderCheckBox.dart';
 import 'package:handmade_cake/presentation/components/checkbox/radio/BasicBorderRadioButton.dart';
 import 'package:handmade_cake/presentation/components/textfield/UnderLineTextField.dart';
+import 'package:handmade_cake/presentation/components/toast/Toast.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
+import 'package:handmade_cake/presentation/components/view_state/LoadingView.dart';
+import 'package:handmade_cake/presentation/features/cake_make_step/provider/RegisterCakeImageProvider.dart';
+import 'package:handmade_cake/presentation/features/cake_make_step/step1/MakeCakeDrawingScreen.dart';
+import 'package:handmade_cake/presentation/model/UiState.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MakeCakePaymentScreen extends StatelessWidget {
+import '../provider/CakeFilingProvider.dart';
+import '../provider/CakeFlavorProvider.dart';
+import '../provider/CakeIndentProvider.dart';
+import '../provider/CakeSizeProvider.dart';
+
+class MakeCakePaymentScreen extends HookConsumerWidget {
   const MakeCakePaymentScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cakeOrderState = ref.watch(requestOrderProvider);
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
+    final recipient = useState<String>("");
+    final contact = useState<String>("");
+    final destination = useState<String>("");
+    final memo = useState<String>("");
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        cakeIndentManager.updatePrice(cakeIndentManager.getTotalPrice());
+      });
+      return () {
+        Future(() {
+          cakeIndentManager.init();
+        });
+      };
+    }, []);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        cakeOrderState.when(
+          success: (event) async {
+            Navigator.push(
+              context,
+              nextSlideScreen(
+                RoutingScreen.PaymentWebView.route,
+                parameter: "https://appapi.make-moment.com/"
+                    "v1/web/payment?orderId=${event.value.toString()}&paymentMethod=CARD",
+              ),
+            );
+          },
+          failure: (event) {
+            Toast.showError(context, event.errorMessage);
+          },
+        );
+      });
+      return null;
+    }, [cakeOrderState]);
+
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
       appBar: const TopBarIconTitleText(
         content: "3단계 - 결제하기",
       ),
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: Text(
-                      "결제하기",
-                      style: getTextTheme(context).semiBold.copyWith(
-                            fontSize: 24,
-                            color: getColorScheme(context).black,
-                          ),
-                    ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Text(
+                          "결제하기",
+                          style: getTextTheme(context).semiBold.copyWith(
+                                fontSize: 24,
+                                color: getColorScheme(context).black,
+                              ),
+                        ),
+                      ),
+                      _Recipient(onChanged: (text) {
+                        cakeIndentManager.updateReceiverName(text);
+                        recipient.value = text;
+                      }),
+                      _Contact(onChanged: (text) {
+                        cakeIndentManager.updateReceiverPhone(text);
+                        contact.value = text;
+                      }),
+                      _Destination(onChanged: (text) {
+                        cakeIndentManager.updateReceiverAddress(text);
+                        destination.value = text;
+                      }),
+                      _Memo(onChanged: (text) {
+                        cakeIndentManager.updateMemo(text);
+                        memo.value = text;
+                      })
+                    ],
                   ),
-                  const _Recipient(),
-                  _Contact(),
-                  _Destination(),
-                  _Memo()
-                ],
-              ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  width: double.infinity,
+                  height: 8,
+                  color: getColorScheme(context).colorGray100,
+                ),
+                const _PaymentInfo(),
+                const _PaymentMethod(),
+                _PaymentButton(
+                  isActivated: recipient.value.isNotEmpty && contact.value.isNotEmpty && destination.value.isNotEmpty,
+                )
+              ],
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              width: double.infinity,
-              height: 8,
-              color: getColorScheme(context).colorGray100,
-            ),
-            _PaymentInfo(),
-            _PaymentMethod(),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              width: double.infinity,
-              height: 8,
-              color: getColorScheme(context).colorGray100,
-            ),
-            _CheckAndAgree(),
-            _PaymentButton()
-          ],
-        ),
+          ),
+          if (cakeOrderState is Loading) LoadingView()
+        ],
       ),
     );
   }
 }
 
 class _Recipient extends StatelessWidget {
-  const _Recipient({super.key});
+  final Function(String) onChanged;
+
+  const _Recipient({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +161,10 @@ class _Recipient extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          const UnderLineTextField(
+          UnderLineTextField(
             maxLength: 9999,
             hint: "수령인을 입력해주세요",
+            onChanged: (value) => onChanged.call(value),
           )
         ],
       ),
@@ -105,7 +173,12 @@ class _Recipient extends StatelessWidget {
 }
 
 class _Contact extends StatelessWidget {
-  const _Contact({super.key});
+  final Function(String) onChanged;
+
+  const _Contact({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +197,10 @@ class _Contact extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          const UnderLineTextField(
+          UnderLineTextField(
             maxLength: 9999,
             hint: "연락처를 입력해주세요",
+            onChanged: (value) => onChanged.call(value),
           )
         ],
       ),
@@ -135,7 +209,12 @@ class _Contact extends StatelessWidget {
 }
 
 class _Destination extends StatelessWidget {
-  const _Destination({super.key});
+  final Function(String) onChanged;
+
+  const _Destination({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -154,9 +233,10 @@ class _Destination extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          const UnderLineTextField(
+          UnderLineTextField(
             maxLength: 9999,
             hint: "배송지를 입력해주세요",
+            onChanged: (value) => onChanged.call(value),
           )
         ],
       ),
@@ -165,7 +245,12 @@ class _Destination extends StatelessWidget {
 }
 
 class _Memo extends StatelessWidget {
-  const _Memo({super.key});
+  final Function(String) onChanged;
+
+  const _Memo({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -184,9 +269,10 @@ class _Memo extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          const UnderLineTextField(
+          UnderLineTextField(
             maxLength: 9999,
             hint: "배송메모를 입력해주세요",
+            onChanged: (value) => onChanged.call(value),
           )
         ],
       ),
@@ -194,13 +280,19 @@ class _Memo extends StatelessWidget {
   }
 }
 
-class _PaymentInfo extends StatelessWidget {
+class _PaymentInfo extends HookConsumerWidget {
   const _PaymentInfo({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cakeFlavor = ref.watch(cakeFlavorProvider);
+    final cakeFiling = ref.watch(cakeFilingProvider);
+    final cakeSize = ref.watch(cakeSizeProvider);
+
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
+
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -233,20 +325,19 @@ class _PaymentInfo extends StatelessWidget {
                               color: getColorScheme(context).black,
                             ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Text(
-                        "사이즈 : 1호[10cm], 맛 : 초코 / 라즈베리, 데코레이션 : 쟝미",
-                        style: getTextTheme(context).regular.copyWith(
-                              fontSize: 10,
-                              color: getColorScheme(context).colorGray500,
-                            ),
+                        "사이즈: ${cakeSize.sizeType}, 맛: ${cakeFlavor.flavorType} / ${cakeFiling.filingType}\n데코레이션: ${cakeIndentManager.getDecorations().join(", ")}",
+                        style: getTextTheme(context)
+                            .regular
+                            .copyWith(fontSize: 10, color: getColorScheme(context).colorGray500, height: 1.4),
                       ),
                     ],
                   ),
                   Text(
-                    "18,000원",
+                    "${cakeIndentManager.getPrice()}원",
                     style: getTextTheme(context).regular.copyWith(
                           fontSize: 14,
                           color: getColorScheme(context).black,
@@ -254,7 +345,7 @@ class _PaymentInfo extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               Row(
@@ -269,7 +360,7 @@ class _PaymentInfo extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    "3,000원",
+                    "4,900원",
                     style: getTextTheme(context).regular.copyWith(
                           fontSize: 14,
                           color: getColorScheme(context).black,
@@ -322,7 +413,12 @@ class _PaymentMethod extends HookWidget {
 }
 
 class _CheckAndAgree extends HookWidget {
-  const _CheckAndAgree({super.key});
+  final Function(bool) onAgreed;
+
+  const _CheckAndAgree({
+    super.key,
+    required this.onAgreed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -340,6 +436,7 @@ class _CheckAndAgree extends HookWidget {
               allAgree.value = !allAgree.value;
               isAgree1.value = allAgree.value;
               isAgree2.value = allAgree.value;
+              onAgreed.call(allAgree.value);
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -473,45 +570,47 @@ class _CheckAndAgree extends HookWidget {
   }
 }
 
-class _PaymentButton extends StatelessWidget {
-  const _PaymentButton({super.key});
+class _PaymentButton extends HookConsumerWidget {
+  final bool isActivated;
+
+  const _PaymentButton({
+    super.key,
+    required this.isActivated,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cakeImagePathState = ref.watch(cakeImagePath);
+    final cakeIndentState = ref.watch(cakeIndentProvider);
+    final cakeOrderManager = ref.read(requestOrderProvider.notifier);
+
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(24,8,24,80),
+      margin: const EdgeInsets.fromLTRB(24, 8, 24, 80),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryFilledButton.largeRect(
             onPressed: () async {
-              Navigator.push(
-                context,
-                nextSlideScreen(
-                  RoutingScreen.MakeCakeComplete.route,
-                ),
-              );
+              cakeOrderManager.requestOrder(cakeImagePathState.toString(), cakeIndentState);
             },
             content: Text(
               "결제하기",
               style: getTextTheme(context).semiBold.copyWith(
-                fontSize: 16,
-                color: getColorScheme(context).white,
-              ),
+                    fontSize: 16,
+                    color: getColorScheme(context).white,
+                  ),
             ),
-            isActivated: true,
+            isActivated: isActivated,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 24.0),
             child: Text(
               "(주)오롯코드ㅣ서울특별시 마포구 월드컵북로5가길 22 (맥심빌딩, 3층)\n사업자등록번호 : 370-81-02809ㅣTEL. 070-4177-9333(고객센터)\n통신판매업신고번호 : 제0000-서울강남-00000호",
-              style: getTextTheme(context).medium.copyWith(
-                  fontSize: 10,
-                  color: getColorScheme(context).colorGray500,
-                  height: 1.8
-              ),
+              style: getTextTheme(context)
+                  .medium
+                  .copyWith(fontSize: 10, color: getColorScheme(context).colorGray500, height: 1.8),
             ),
           ),
         ],

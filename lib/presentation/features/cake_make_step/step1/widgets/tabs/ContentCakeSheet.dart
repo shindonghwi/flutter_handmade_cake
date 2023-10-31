@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
-import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/CanvasWidgetsNotifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../provider/CakeIndentProvider.dart';
+import '../../../provider/CanvasWidgetsProvider.dart';
 
 class ContentCakeSheet extends HookConsumerWidget {
   const ContentCakeSheet({super.key});
@@ -9,6 +11,7 @@ class ContentCakeSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final canvasManager = ref.read(canvasWidgetsProvider.notifier);
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
 
     final List<String> sheets = [
       "assets/imgs/sheet_rect_yellow.png",
@@ -30,8 +33,32 @@ class ContentCakeSheet extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12.0),
       itemBuilder: (context, index) {
         final sheet = sheets[index];
+
+        var sheetKey = "SH";
+        if (sheet.contains("rect")){
+          sheetKey += "S";
+        } else if (sheet.contains("circle")){
+          sheetKey += "C";
+        } else if (sheet.contains("heart")){
+          sheetKey += "H";
+        }
+
+        if (sheet.contains("white")){
+          sheetKey += "W";
+        } else if (sheet.contains("yellow")){
+          sheetKey += "Y";
+        } else if (sheet.contains("blue")){
+          sheetKey += "S";
+        } else if (sheet.contains("green")){
+          sheetKey += "G";
+        } else if (sheet.contains("red")){
+          sheetKey += "P";
+        }
+
+
         return Clickable(
           onPressed: () {
+            cakeIndentManager.updateCakeSheet(sheetKey);
             canvasManager.setBackgroundWidget(
               Center(
                 child: Padding(

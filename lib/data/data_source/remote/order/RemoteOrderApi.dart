@@ -28,18 +28,19 @@ class RemoteOrderApi {
     );
 
     final errorResponse = BaseApiUtil.isErrorStatusCode(response);
-    if (errorResponse != null) {
-      return ApiResponse(
-        status: errorResponse.status,
-        message: errorResponse.message,
-        data: null,
-      );
-    } else {
-      return ApiResponse.fromJson(
-        jsonDecode(response.body),
-        (json) => ResponseOrderIndentModel.fromJson(json),
-      );
-    }
+      if (errorResponse != null) {
+        return ApiResponse(
+          status: errorResponse.status,
+          message: errorResponse.message,
+          data: null,
+        );
+      } else {
+        return ApiResponse.fromJson(
+          jsonDecode(response.body),
+              (json) => ResponseOrderIndentModel.fromJson(json),
+        );
+      }
+
   }
 
   /// 주문 이미지 등록

@@ -7,24 +7,30 @@ import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/appbar/TopBarIconTitleText.dart';
 import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
 import 'package:handmade_cake/presentation/components/textfield/OutLineTextField.dart';
-import 'package:handmade_cake/presentation/components/textfield/UnderLineTextField.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
+import 'package:handmade_cake/presentation/features/cake_make_step/step1/MakeCakeDrawingScreen.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/step1/widgets/ContentCakeOption.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/CollectionUtil.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MakeCakeInfoScreen extends HookWidget {
-  final String? imagePath;
+import '../provider/CakeIndentProvider.dart';
 
+class MakeCakeInfoScreen extends HookConsumerWidget {
   const MakeCakeInfoScreen({
     super.key,
-    this.imagePath,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cakeImagePathState = ref.watch(cakeImagePath);
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
+
+    var reason = useState("");
+    var request = "";
+
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
       appBar: const TopBarIconTitleText(
@@ -46,17 +52,25 @@ class MakeCakeInfoScreen extends HookWidget {
                       width: 1,
                     ),
                   ),
-                  child: CollectionUtil.isNullEmptyFromString(imagePath)
+                  child: CollectionUtil.isNullEmptyFromString(cakeImagePathState)
                       ? const Placeholder()
                       : Image.file(
-                          File(imagePath!),
+                          File(cakeImagePathState!),
                           fit: BoxFit.cover,
                         ),
                 ),
               ),
               const _CakeInfo(),
-              const _CakePurpose(),
-              const _CakeRequestTerm(),
+              _CakePurpose(
+                onChanged: (text) {
+                  reason.value = text;
+                },
+              ),
+              _CakeRequestTerm(
+                onChanged: (text) {
+                  request = text;
+                },
+              ),
             ],
           ),
         ),
@@ -67,6 +81,7 @@ class MakeCakeInfoScreen extends HookWidget {
           margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
           child: PrimaryFilledButton.largeRect(
             onPressed: () async {
+              cakeIndentManager.updateMessage(reason.value, request);
               Navigator.push(
                 context,
                 nextSlideScreen(
@@ -81,7 +96,7 @@ class MakeCakeInfoScreen extends HookWidget {
                     color: getColorScheme(context).white,
                   ),
             ),
-            isActivated: true,
+            isActivated: reason.value.isNotEmpty,
           ),
         ),
       ),
@@ -117,7 +132,12 @@ class _CakeInfo extends HookWidget {
 }
 
 class _CakePurpose extends HookWidget {
-  const _CakePurpose({super.key});
+  final Function(String) onChanged;
+
+  const _CakePurpose({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +161,7 @@ class _CakePurpose extends HookWidget {
           maxLength: 9999,
           hint: "예) 생일, 결혼식, 출산, 친구 선물 등",
           textInputAction: TextInputAction.next,
-          onChanged: (text) {},
+          onChanged: (text) => onChanged.call(text),
         ),
       ],
     );
@@ -149,7 +169,12 @@ class _CakePurpose extends HookWidget {
 }
 
 class _CakeRequestTerm extends HookWidget {
-  const _CakeRequestTerm({super.key});
+  final Function(String) onChanged;
+
+  const _CakeRequestTerm({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +199,7 @@ class _CakeRequestTerm extends HookWidget {
           maxLines: 5,
           hint: "예) 색상, 테마, 특이사항 등",
           textInputAction: TextInputAction.done,
-          onChanged: (text) {},
+          onChanged: (text) => onChanged.call(text),
         ),
       ],
     );

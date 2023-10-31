@@ -19,12 +19,12 @@ class ApiResponse<T> {
       debugPrint('ApiResponse.fromJson: ${ApiResponse(
         status: json!['status'] as int,
         message: json['message'] as String,
-        data: fromJsonT(json['data']),
+        data: json['data'] == null ? null : fromJsonT(json['data']),
       )}');
       return ApiResponse(
         status: json['status'] as int,
         message: json['message'] as String,
-        data: fromJsonT(json['data']),
+        data: json['data'] == null ? null : fromJsonT(json['data']),
       );
     } catch (e) {
       debugPrint('ApiResponse.fromJson: error : ${e.toString()}');

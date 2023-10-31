@@ -14,9 +14,17 @@ extension CakeSizeTypeExtension on CakeSizeType {
         return "3호";
     }
   }
+  String get transText {
+    switch (this) {
+      case CakeSizeType.One:
+        return "NO1";
+      case CakeSizeType.Two:
+        return "NO2";
+      case CakeSizeType.Three:
+        return "NO3";
+    }
+  }
 }
-
-
 
 final cakeSizeProvider = StateNotifierProvider<CakeSizeNotifier, CakeSizeType>((_) {
   return CakeSizeNotifier();

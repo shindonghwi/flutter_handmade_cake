@@ -23,6 +23,12 @@ class BaseApiUtil {
         message: _getAppLocalization.get().message_network_required.toString(),
         data: null,
       );
+    } else if (res.statusCode == 403) {
+      return ApiResponse(
+        status: res.statusCode,
+        message: res.body,
+        data: null,
+      );
     }
     return null;
   }

@@ -8,6 +8,7 @@ import 'package:handmade_cake/presentation/features/main/orders/OrdersScreen.dar
 import 'package:handmade_cake/presentation/features/sign_in/SignInScreen.dart';
 import 'package:handmade_cake/presentation/features/signup/SignUpScreen.dart';
 import 'package:handmade_cake/presentation/features/splash/SplashScreen.dart';
+import 'package:handmade_cake/presentation/features/webview/PaymentWebViewScreen.dart';
 import 'package:handmade_cake/presentation/features/withdrawal/WithdrawalScreen.dart';
 
 import '../presentation/features/cake_make_step/step1/MakeCakeDrawingScreen.dart';
@@ -23,6 +24,7 @@ enum RoutingScreen {
   MakeCakeDrawing(route: "/make/drawing"), // 케이크 제작 그리기
   MakeCakeInfo(route: "/make/info"), // 케이크 정보 작성
   MakeCakePayment(route: "/make/payment"), // 케이크 결제하기
+  PaymentWebView(route: "/payment/webview"), // 케이크 결제하기 웹뷰
   MakeCakeComplete(route: "/make/complete"); // 케이크 주문 완료
 
   final String route;
@@ -43,6 +45,7 @@ enum RoutingScreen {
       RoutingScreen.MakeCakeDrawing.route: (context) => const MakeCakeDrawingScreen(),
       RoutingScreen.MakeCakeInfo.route: (context) => const MakeCakeInfoScreen(),
       RoutingScreen.MakeCakePayment.route: (context) => const MakeCakePaymentScreen(),
+      RoutingScreen.PaymentWebView.route: (context) => const PaymentWebViewScreen(),
       RoutingScreen.MakeCakeComplete.route: (context) => const MakeCakeCompleteScreen(),
     };
   }
@@ -67,12 +70,14 @@ enum RoutingScreen {
     } else if (route == RoutingScreen.MakeCakeDrawing.route) {
       return const MakeCakeDrawingScreen();
     } else if (route == RoutingScreen.MakeCakeInfo.route) {
-      String? imagePath = parameter;
-      return MakeCakeInfoScreen(imagePath: imagePath);
+      return const MakeCakeInfoScreen();
     } else if (route == RoutingScreen.MakeCakePayment.route) {
       return const MakeCakePaymentScreen();
     } else if (route == RoutingScreen.MakeCakeComplete.route) {
       return const MakeCakeCompleteScreen();
+    } else if (route == RoutingScreen.PaymentWebView.route) {
+      final webViewUrl = parameter;
+      return PaymentWebViewScreen(webViewUrl: webViewUrl);
     } else {
       return const SignInScreen();
     }

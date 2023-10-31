@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:handmade_cake/presentation/components/canvas/ResizableImage.dart';
 import 'package:handmade_cake/presentation/components/toast/Toast.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
+import 'package:handmade_cake/presentation/features/cake_make_step/provider/CakeIndentProvider.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:handmade_cake/presentation/utils/dto/Pair.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../provider/CanvasWidgetsNotifier.dart';
+import '../../provider/CanvasWidgetsProvider.dart';
+
 
 class ContentCakeDecoration extends HookConsumerWidget {
   const ContentCakeDecoration({super.key});
@@ -16,13 +18,14 @@ class ContentCakeDecoration extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final canvasWidgetsRead = ref.read(canvasWidgetsProvider.notifier);
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
 
     final List<Pair<String, String>> decorations = [
-      Pair("수국", "assets/imgs/deco1.png"), // 1
-      Pair("수국", "assets/imgs/deco2.png"), // 1
-      Pair("장미", "assets/imgs/deco3.png"), // 3
-      Pair("장미", "assets/imgs/deco4.png"), // 3
-      Pair("장미", "assets/imgs/deco5.png"), // 3
+      Pair("수국1", "assets/imgs/deco1.png"), // 1
+      Pair("수국2", "assets/imgs/deco2.png"), // 1
+      Pair("장미1", "assets/imgs/deco3.png"), // 3
+      Pair("장미2", "assets/imgs/deco4.png"), // 3
+      Pair("장미3", "assets/imgs/deco5.png"), // 3
       Pair("데이지", "assets/imgs/deco6.png"), // 4
       Pair("벚꽃", "assets/imgs/deco7.png"), // 1
       Pair("접시꽃", "assets/imgs/deco8.png"), // 2
@@ -98,6 +101,36 @@ class ContentCakeDecoration extends HookConsumerWidget {
                           Toast.showWarning(context, "시트를 먼저 선택해주세요");
                           return;
                         }
+
+                        final name = deco.first;
+
+                        switch(name){
+                          case "수국1":
+                            cakeIndentManager.addDecoration("HY1");
+                          case "수국2":
+                            cakeIndentManager.addDecoration("HY2");
+                            break;
+                          case "장미1":
+                            cakeIndentManager.addDecoration("RS1");
+                          case "장미2":
+                            cakeIndentManager.addDecoration("RS2");
+                          case "장미3":
+                            cakeIndentManager.addDecoration("RS3");
+                            break;
+                          case "데이지":
+                            cakeIndentManager.addDecoration("DS1");
+                            break;
+                          case "벚꽃":
+                            cakeIndentManager.addDecoration("CB1");
+                            break;
+                          case "접시꽃":
+                            cakeIndentManager.addDecoration("HH1");
+                            break;
+                          case "백일홍":
+                            cakeIndentManager.addDecoration("CM1");
+                            break;
+                        }
+
                         canvasWidgetsRead.addWidget(
                           ResizableImage(
                             widgetKey: "${deco.first}_${DateTime.now().millisecondsSinceEpoch}",

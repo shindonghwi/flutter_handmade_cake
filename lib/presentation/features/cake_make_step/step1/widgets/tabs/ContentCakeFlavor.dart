@@ -5,7 +5,8 @@ import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../provider/CakeFlavorProvider.dart';
+import '../../../provider/CakeFlavorProvider.dart';
+import '../../../provider/CakeIndentProvider.dart';
 
 class ContentCakeFlavor extends HookConsumerWidget {
   const ContentCakeFlavor({super.key});
@@ -14,6 +15,7 @@ class ContentCakeFlavor extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final flavorList = [FlavorType.Vanilla, FlavorType.Choco, FlavorType.Carrot, FlavorType.RedVelvet];
     final cakeFlavorManager = ref.read(cakeFlavorProvider.notifier);
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -25,7 +27,10 @@ class ContentCakeFlavor extends HookConsumerWidget {
             margin: const EdgeInsets.symmetric(horizontal: 4),
             child: Clickable(
               borderRadius: 100,
-              onPressed: () => cakeFlavorManager.changeFlavor(flavor),
+              onPressed: () {
+                cakeIndentManager.updateTaste(flavor);
+                cakeFlavorManager.changeFlavor(flavor);
+              },
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(

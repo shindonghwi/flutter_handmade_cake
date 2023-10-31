@@ -16,6 +16,18 @@ extension FilingTypeExtension on FilingType {
         return "살구";
     }
   }
+  String get transText {
+    switch (this) {
+      case FilingType.Blueberry:
+        return "B";
+      case FilingType.Strawberry:
+        return "S";
+      case FilingType.Raspberry:
+        return "R";
+      case FilingType.Apricot:
+        return "A";
+    }
+  }
 }
 
 
