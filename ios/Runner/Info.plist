@@ -49,8 +49,50 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<false/>
-		<key>NSAppTransportSecurity</key>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
+        <key>NSAppTransportSecurity</key>
+        <dict>
+            <key>NSAllowsArbitraryLoads</key>
+            <true/>
+        </dict>
+        <key>LSApplicationQueriesSchemes</key>
+        <array>
+            <string>ispmobile</string>
+            <string>kb-acp</string>
+            <string>liivbank</string>
+            <string>newliiv</string>
+            <string>kbbank</string>
+            <string>lotteappcard</string>
+            <string>lottesmartpay</string>
+            <string>hdcardappcardansimclick</string>
+            <string>smhyundaiansimclick</string>
+            <string>mpocket.online.ansimclick</string>
+            <string>scardcertiapp</string>
+            <string>shinhan-sr-ansimclick</string>
+            <string>smshinhanansimclick</string>
+            <string>nhappcardansimclick</string>
+            <string>nhallonepayansimclick</string>
+            <string>nonghyupcardansimclick</string>
+            <string>cloudpay</string>
+            <string>citispay</string>
+            <string>citicardappkr</string>
+            <string>citimobileapp</string>
+            <string>kftc-bankpay</string>
+            <string>paypin</string>
+            <string>payco</string>
+            <string>paycoapplogin</string>
+            <string>tswansimclick</string>
+            <string>bankwallet</string>
+            <string>uppay</string>
+            <string>Hanaskcardmobileportal</string>
+            <string>Callonlinepay</string>
+            <string>Lpayapp</string>
+            <string>Wooripay</string>
+            <string>hanawalletmembers</string>
+            <string>com.wooricard.wcard</string>
+            <string>hanamopmoasign</string>
+            <string>NewSmartPib</string>
+            <string>liivbank</string>
+            <string>supertoss</string>
+        </array>
 	</dict>
 </plist>

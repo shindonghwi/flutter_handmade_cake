@@ -24,7 +24,7 @@ dependencies:
   http: ^0.13.6
   shared_preferences: ^2.1.1
   package_info_plus: ^4.0.2
-  url_launcher: ^6.1.11
+  url_launcher: ^6.0.13
   app_tracking_transparency: ^2.0.4
   cached_network_image: ^3.2.3
   device_info_plus: ^9.0.3
@@ -33,6 +33,7 @@ dependencies:
   path_provider: ^2.1.1
   flutter_image_compress: ^2.1.0
   webview_flutter: 3.0.4
+  uni_links: ^0.5.1
 
 dev_dependencies:
   flutter_test:
