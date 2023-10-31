@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:handmade_cake/navigation/PageMoveUtil.dart';
+import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/appbar/TopBarIconTitleText.dart';
+import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
+import 'package:handmade_cake/presentation/components/checkbox/checkbox/BasicBorderCheckBox.dart';
 import 'package:handmade_cake/presentation/components/checkbox/radio/BasicBorderRadioButton.dart';
 import 'package:handmade_cake/presentation/components/textfield/UnderLineTextField.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
@@ -60,8 +65,8 @@ class MakeCakePaymentScreen extends StatelessWidget {
               height: 8,
               color: getColorScheme(context).colorGray100,
             ),
-
-            _CheckAndAgree()
+            _CheckAndAgree(),
+            _PaymentButton()
           ],
         ),
       ),
@@ -285,9 +290,8 @@ class _PaymentMethod extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 48, 24, 32),
+      padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -317,18 +321,201 @@ class _PaymentMethod extends HookWidget {
   }
 }
 
-class _CheckAndAgree extends StatelessWidget {
+class _CheckAndAgree extends HookWidget {
   const _CheckAndAgree({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-          ],
-        )
-      ],
+    final allAgree = useState<bool>(false);
+    final isAgree1 = useState<bool>(false);
+    final isAgree2 = useState<bool>(false);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Clickable(
+            onPressed: () {
+              allAgree.value = !allAgree.value;
+              isAgree1.value = allAgree.value;
+              isAgree2.value = allAgree.value;
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: IgnorePointer(
+                child: BasicBorderCheckBox(
+                  isChecked: allAgree.value,
+                  onChange: (value) {},
+                  label: "주문내용 확인 및 결제 동의",
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 6,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Clickable(
+                onPressed: () {
+                  isAgree1.value = !isAgree1.value;
+                  if (isAgree1.value && isAgree2.value) {
+                    allAgree.value = true;
+                  } else {
+                    allAgree.value = false;
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        "assets/imgs/icon_check_line.svg",
+                        width: 16,
+                        height: 16,
+                        colorFilter: ColorFilter.mode(
+                          isAgree1.value
+                              ? getColorScheme(context).colorPrimary500
+                              : getColorScheme(context).colorGray500,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: Text(
+                          "개인정보 제3자 정보 제공 동의",
+                          style: getTextTheme(context).medium.copyWith(
+                                fontSize: 10,
+                                color: getColorScheme(context).colorPrimary500,
+                              ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Clickable(
+                onPressed: () {},
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Text(
+                    "자세히보기",
+                    style: getTextTheme(context).medium.copyWith(
+                          fontSize: 10,
+                          color: getColorScheme(context).colorPrimary500,
+                        ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Clickable(
+                onPressed: () {
+                  isAgree2.value = !isAgree2.value;
+                  if (isAgree2.value && isAgree2.value) {
+                    allAgree.value = true;
+                  } else {
+                    allAgree.value = false;
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        "assets/imgs/icon_check_line.svg",
+                        width: 16,
+                        height: 16,
+                        colorFilter: ColorFilter.mode(
+                          isAgree2.value
+                              ? getColorScheme(context).colorPrimary500
+                              : getColorScheme(context).colorGray500,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: Text(
+                          "결제대행 서비스 이용약관 동의",
+                          style: getTextTheme(context).medium.copyWith(
+                                fontSize: 10,
+                                color: getColorScheme(context).colorPrimary500,
+                              ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Clickable(
+                onPressed: () {},
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Text(
+                    "자세히보기",
+                    style: getTextTheme(context).medium.copyWith(
+                          fontSize: 10,
+                          color: getColorScheme(context).colorPrimary500,
+                        ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _PaymentButton extends StatelessWidget {
+  const _PaymentButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.fromLTRB(24,8,24,80),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          PrimaryFilledButton.largeRect(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                nextSlideScreen(
+                  RoutingScreen.MakeCakeComplete.route,
+                ),
+              );
+            },
+            content: Text(
+              "결제하기",
+              style: getTextTheme(context).semiBold.copyWith(
+                fontSize: 16,
+                color: getColorScheme(context).white,
+              ),
+            ),
+            isActivated: true,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Text(
+              "(주)오롯코드ㅣ서울특별시 마포구 월드컵북로5가길 22 (맥심빌딩, 3층)\n사업자등록번호 : 370-81-02809ㅣTEL. 070-4177-9333(고객센터)\n통신판매업신고번호 : 제0000-서울강남-00000호",
+              style: getTextTheme(context).medium.copyWith(
+                  fontSize: 10,
+                  color: getColorScheme(context).colorGray500,
+                  height: 1.8
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

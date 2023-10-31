@@ -58,7 +58,8 @@ class BasicBorderCheckBox extends StatelessWidget {
                 label,
                 style: textStyle ??
                     getTextTheme(context).medium.copyWith(
-                          color: getColorScheme(context).colorGray500,
+                          fontSize: 14,
+                          color: getColorScheme(context).black,
                         ),
               ),
             ),

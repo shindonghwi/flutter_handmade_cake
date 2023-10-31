@@ -34,9 +34,12 @@ class ContentCakeSheet extends HookConsumerWidget {
           onPressed: () {
             canvasManager.setBackgroundWidget(
               Center(
-                child: Image.asset(
-                  sheet,
-                  fit: BoxFit.cover,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Image.asset(
+                    sheet,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             );
