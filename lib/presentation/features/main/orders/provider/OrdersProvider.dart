@@ -18,8 +18,10 @@ class OrdersNotifier extends StateNotifier<UIState<List<ResponseOrdersModel>>> {
 
   GetOrdersUseCase get _getOrders => GetIt.instance<GetOrdersUseCase>();
 
-  void requestOrders() async {
+  void requestOrders({int delay = 0}) async {
     state = Loading();
+
+    await Future.delayed(Duration(milliseconds: delay));
 
     await _getOrders.call().then((result) {
       if (result.status == 200) {

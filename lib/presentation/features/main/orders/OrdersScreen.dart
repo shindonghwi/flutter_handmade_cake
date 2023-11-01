@@ -43,20 +43,26 @@ class OrdersScreen extends HookConsumerWidget {
         children: [
           if (ordersState is Success<List<ResponseOrdersModel>>)
             if (ordersState.value.isNotEmpty)
-              ListView.separated(
-                separatorBuilder: (context, index) => Container(
-                  width: double.infinity,
-                  height: 1,
-                  margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                  color: getColorScheme(context).colorGray300,
-                ),
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(bottom: 40),
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: ordersState.value.length,
-                itemBuilder: (context, index) {
-                  return _OrderItem(item: ordersState.value[index]);
+              RefreshIndicator(
+                color: getColorScheme(context).colorPrimary500,
+                onRefresh: () async {
+                  ordersManager.requestOrders(delay: 500);
                 },
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => Container(
+                    width: double.infinity,
+                    height: 1,
+                    margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                    color: getColorScheme(context).colorGray300,
+                  ),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(bottom: 40),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: ordersState.value.length,
+                  itemBuilder: (context, index) {
+                    return _OrderItem(item: ordersState.value[index]);
+                  },
+                ),
               )
             else
               Center(
