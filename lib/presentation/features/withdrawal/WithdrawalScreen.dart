@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:handmade_cake/navigation/Route.dart';
+import 'package:handmade_cake/presentation/components/appbar/TopBarIconTitleText.dart';
 import 'package:handmade_cake/presentation/components/appbar/TopBarTitle.dart';
 import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
 import 'package:handmade_cake/presentation/components/checkbox/checkbox/BasicBorderCheckBox.dart';
@@ -52,7 +53,7 @@ class WithdrawalScreen extends HookConsumerWidget {
 
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
-      appBar: const TopBarTitle(
+      appBar: const TopBarIconTitleText(
         content: "탈퇴하기",
       ),
       body: SafeArea(

@@ -20,6 +20,8 @@ import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:handmade_cake/presentation/utils/RegUtil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SignUpScreen extends HookConsumerWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -255,7 +257,7 @@ class SignUpScreen extends HookConsumerWidget {
                               ),
                             ),
                             Clickable(
-                              onPressed: () {},
+                              onPressed: () => launchUrlString("https://image.make-moment.com/service/"),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SvgPicture.asset(
@@ -292,7 +294,7 @@ class SignUpScreen extends HookConsumerWidget {
                               ),
                             ),
                             Clickable(
-                              onPressed: () {},
+                              onPressed: () => launchUrlString("https://image.make-moment.com/personal/"),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SvgPicture.asset(
