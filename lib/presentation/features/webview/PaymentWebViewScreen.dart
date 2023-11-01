@@ -33,95 +33,100 @@ class PaymentWebViewScreen extends HookWidget {
     final lastUrl = useState<String?>(null);
 
     return BaseScaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          WebView(
-            initialUrl: webViewUrl,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              controller.value = webViewController;
+      body: SafeArea(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            WebView(
+              initialUrl: webViewUrl,
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController webViewController) {
+                controller.value = webViewController;
 
-              if (Platform.isIOS) {
-                webViewController.clearCache();
-              }
-            },
-            onPageStarted: (String url) {
-              debugPrint("onPageStarted: $url");
-              isLoading.value = true;
-            },
-            onPageFinished: (String url) {
-              debugPrint("onPageFinished: $url");
-              isLoading.value = false;
-              lastUrl.value = url;
-            },
-            onWebResourceError: (error) {
-              debugPrint("WebView error: $error");
-              controller.value?.reload();
-            },
-            navigationDelegate: (NavigationRequest request) async {
-              debugPrint("navigationDelegate: ${request.url}");
-
-              if (Platform.isAndroid) {
-                final shouldOverride = await channel.invokeMethod('getAppUrl', <String, Object>{'url': request.url});
-                if (shouldOverride) {
-                  return NavigationDecision.prevent;
+                if (Platform.isIOS) {
+                  webViewController.clearCache();
                 }
-              } else if (Platform.isIOS) {
-                final uri = Uri.parse(request.url);
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri, mode: LaunchMode.externalApplication);
-                  Future.delayed(const Duration(seconds: 1), () {
-                    if (lastUrl.value != null) {
-                      controller.value?.loadUrl(lastUrl.value!);
-                    }
-                  });
-                  return NavigationDecision.prevent;
-                } else {
-                  // Handle the scenario when the URL cannot be launched
-                  debugPrint("Couldn't launch ${request.url}");
-                }
-                return NavigationDecision.prevent;
-              }
-              return NavigationDecision.navigate;
-            },
-            javascriptChannels: <JavascriptChannel>{
-              JavascriptChannel(
-                name: 'toApp',
-                onMessageReceived: (message) {
-                  var jsonData = jsonDecode(message.message);
-                  debugPrint("웹에서 플러터앱으로 메시지 전송: ${jsonData}");
+              },
+              onPageStarted: (String url) {
+                debugPrint("onPageStarted: $url");
+                isLoading.value = true;
+              },
+              onPageFinished: (String url) {
+                debugPrint("onPageFinished: $url");
+                isLoading.value = false;
+                lastUrl.value = url;
+              },
+              onWebResourceError: (error) {
+                debugPrint("WebView error: $error");
+                controller.value?.reload();
+              },
+              navigationDelegate: (NavigationRequest request) async {
+                debugPrint("navigationDelegate: ${request.url}");
+                var url = request.url;
 
-                  final status = jsonData['status'];
-                  final msg = jsonData['message'];
-
-                  debugPrint("@#@@#@#@#@# status: $status");
-                  debugPrint("@#@@#@#@#@# msg: $msg");
-
-                  if (status == "200") {
-                    Toast.showSuccess(context, "결제가 완료되었습니다");
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      nextSlideScreen(RoutingScreen.MakeCakeComplete.route),
-                      (route) => false,
-                    );
-                  } else {
-                    Toast.showSuccess(context, "결제에 실패하였습니다");
-                    Navigator.of(context).pop();
+                if (url.startsWith('http://') || url.startsWith('https://')) {
+                  return NavigationDecision.navigate; // WebView에서 URL 로딩
+                } else if (Platform.isAndroid) {
+                  final shouldOverride = await channel.invokeMethod('getAppUrl', <String, Object>{'url': request.url});
+                  if (shouldOverride) {
+                    return NavigationDecision.prevent;
                   }
-                },
-              ),
-            },
-          ),
-          if (isLoading.value)
-            Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  getColorScheme(context).colorPrimary500,
+                } else if (Platform.isIOS) {
+                  final uri = Uri.parse(request.url);
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                    Future.delayed(const Duration(seconds: 1), () {
+                      if (lastUrl.value != null) {
+                        controller.value?.loadUrl(lastUrl.value!);
+                      }
+                    });
+                    return NavigationDecision.prevent;
+                  } else {
+                    // Handle the scenario when the URL cannot be launched
+                    debugPrint("Couldn't launch ${request.url}");
+                  }
+                  return NavigationDecision.prevent;
+                }
+                return NavigationDecision.navigate;
+              },
+              javascriptChannels: <JavascriptChannel>{
+                JavascriptChannel(
+                  name: 'toApp',
+                  onMessageReceived: (message) {
+                    var jsonData = jsonDecode(message.message);
+                    debugPrint("웹에서 플러터앱으로 메시지 전송: ${jsonData}");
+
+                    final status = jsonData['status'];
+                    final msg = jsonData['message'];
+
+                    debugPrint("@#@@#@#@#@# status: $status");
+                    debugPrint("@#@@#@#@#@# msg: $msg");
+
+                    if (status == "200") {
+                      Toast.showSuccess(context, "결제가 완료되었습니다");
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        nextSlideScreen(RoutingScreen.MakeCakeComplete.route),
+                        (route) => false,
+                      );
+                    } else {
+                      Toast.showSuccess(context, "결제에 실패하였습니다");
+                      Navigator.of(context).pop();
+                    }
+                  },
                 ),
-              ),
-            )
-        ],
+              },
+            ),
+            if (isLoading.value)
+              Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    getColorScheme(context).colorPrimary500,
+                  ),
+                ),
+              )
+          ],
+        ),
       ),
     );
   }
