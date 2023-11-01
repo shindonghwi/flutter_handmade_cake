@@ -99,45 +99,6 @@ class MyPageScreen extends HookConsumerWidget {
                     color: getColorScheme(context).colorGray100,
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: Text(
-                            "알림",
-                            style: getTextTheme(context).medium.copyWith(
-                                  fontSize: 14,
-                                  color: getColorScheme(context).black,
-                                ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "케이크 배송 알림",
-                                style: getTextTheme(context).regular.copyWith(
-                                      fontSize: 14,
-                                      color: getColorScheme(context).black,
-                                    ),
-                              ),
-                              Switch.adaptive(
-                                activeColor: getColorScheme(context).colorPrimary500,
-                                inactiveTrackColor: getColorScheme(context).colorGray300,
-                                value: shippingNotification.value,
-                                onChanged: (value) => shippingNotification.value = value,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
                     margin: const EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
