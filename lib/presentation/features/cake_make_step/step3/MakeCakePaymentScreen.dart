@@ -32,6 +32,7 @@ class MakeCakePaymentScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cakeOrderState = ref.watch(requestOrderProvider);
     final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
+    final cakeOrderManager = ref.read(requestOrderProvider.notifier);
     final recipient = useState<String>("");
     final contact = useState<String>("");
     final destination = useState<String>("");
@@ -44,6 +45,7 @@ class MakeCakePaymentScreen extends HookConsumerWidget {
       return () {
         Future(() {
           cakeIndentManager.init();
+          cakeOrderManager.init();
         });
       };
     }, []);

@@ -2,7 +2,7 @@ package make.moment.handmade_cake
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.Intent.URI_INTENT_SCHEME
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import io.flutter.embedding.android.FlutterActivity
@@ -13,7 +13,7 @@ import java.net.URISyntaxException
 
 class MainActivity : FlutterActivity() {
 
-    private var CHANNEL = "fcm_default_channel"
+    private var CHANNEL = "webview_channel"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,33 +23,55 @@ class MainActivity : FlutterActivity() {
         channel.setMethodCallHandler { call, result ->
             when (call.method) {
                 "getAppUrl" -> handleGetAppUrl(call, result)
-                "startAct" -> handleStartActivity(call, result)
                 else -> result.notImplemented()
             }
         }
     }
 
     private fun handleGetAppUrl(call: MethodCall, result: MethodChannel.Result) {
-        Toast.makeText(this, "getAppUrl : ${call}", Toast.LENGTH_SHORT).show()
         try {
             val url: String = call.argument("url")!!
-            val intent = Intent.parseUri(url, URI_INTENT_SCHEME)
-            result.success(intent.dataString)
+            val shouldOverride = shouldOverrideUrlLoading(url)
+            result.success(shouldOverride)
         } catch (e: Exception) {
             handleError(e, result)
         }
     }
 
-    private fun handleStartActivity(call: MethodCall, result: MethodChannel.Result) {
-        Toast.makeText(this, "startAct : ${call}", Toast.LENGTH_SHORT).show()
-        try {
-            val url: String = call.argument("url")!!
-            val intent = Intent.parseUri(url, URI_INTENT_SCHEME)
-            startActivity(intent)
-            result.success("Success")
-        } catch (e: Exception) {
-            handleError(e, result)
+    private fun shouldOverrideUrlLoading(url: String): Boolean {
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return false
+        } else {
+            try {
+                val intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
+                val uri = Uri.parse(intent.dataString)
+                startActivity(Intent(Intent.ACTION_VIEW, uri))
+                return true
+            } catch (e: URISyntaxException) {
+                e.printStackTrace()
+                return false
+            } catch (e: ActivityNotFoundException) {
+                if (url.startsWith("ispmobile://")) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=kvp.jjy.MispAndroid320")))
+                    return true
+                } else if (url.startsWith("kftc-bankpay://")) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.kftc.bankpay.android")))
+                    return true
+                } else {
+                    try {
+                        val packagename = intent.getPackage()
+                        if (packagename != null) {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packagename")))
+                            return true
+                        }
+                    } catch (e: URISyntaxException) {
+                        e.printStackTrace()
+                        return false
+                    }
+                }
+            }
         }
+        return false
     }
 
     private fun handleError(e: Exception, result: MethodChannel.Result) {
@@ -59,7 +81,6 @@ class MainActivity : FlutterActivity() {
                 result.error("Error", "URI Syntax Exception", null)
             }
             is ActivityNotFoundException -> {
-                // 여기서 해당 앱 마켓 URL로 리다이렉션하는 로직을 추가해야 합니다.
                 e.printStackTrace()
                 result.error("Error", "Activity Not Found", null)
             }

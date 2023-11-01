@@ -14,6 +14,7 @@ class MakeCakeCompleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
+      backgroundColor: getColorScheme(context).white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
