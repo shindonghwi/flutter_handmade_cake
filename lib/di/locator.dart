@@ -19,6 +19,8 @@ import 'package:handmade_cake/domain/usecases/remote/me/GetMeInfoUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/me/PatchMePwUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/me/PostMeJoinUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/me/PostMeLeaveUseCase.dart';
+import 'package:handmade_cake/domain/usecases/remote/order/GetOrderUseCase.dart';
+import 'package:handmade_cake/domain/usecases/remote/order/GetOrdersUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/order/PostImageUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/order/PostOrderIndentUseCase.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
@@ -52,6 +54,8 @@ void initServiceLocator() {
   // order
   GetIt.instance.registerLazySingleton<PostImageUseCase>(() => PostImageUseCase());
   GetIt.instance.registerLazySingleton<PostOrderIndentUseCase>(() => PostOrderIndentUseCase());
+  GetIt.instance.registerLazySingleton<GetOrdersUseCase>(() => GetOrdersUseCase());
+  GetIt.instance.registerLazySingleton<GetOrderUseCase>(() => GetOrderUseCase());
 
   /// -------
   /// repository

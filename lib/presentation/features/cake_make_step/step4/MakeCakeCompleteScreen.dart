@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handmade_cake/navigation/PageMoveUtil.dart';
 import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
+import 'package:handmade_cake/presentation/features/main/orders/provider/OrdersProvider.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MakeCakeCompleteScreen extends StatelessWidget {
+class MakeCakeCompleteScreen extends HookConsumerWidget {
   const MakeCakeCompleteScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ordersManager = ref.read(ordersProvider.notifier);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ordersManager.requestOrders();
+      });
+      return null;
+    }, []);
+
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
       body: Center(
@@ -60,11 +72,11 @@ class MakeCakeCompleteScreen extends StatelessWidget {
                   ),
             ),
             isActivated: true,
-            onPressed: (){
+            onPressed: () {
               Navigator.pushAndRemoveUntil(
                 context,
                 nextSlideScreen(RoutingScreen.Main.route),
-                    (route) => false,
+                (route) => false,
               );
             },
           ),

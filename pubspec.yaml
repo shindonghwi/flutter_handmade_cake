@@ -26,7 +26,7 @@ dependencies:
   package_info_plus: ^4.0.2
   url_launcher: ^6.0.13
   app_tracking_transparency: ^2.0.4
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.0
   device_info_plus: ^9.0.3
   connectivity_plus: ^4.0.2
   photo_view: ^0.14.0

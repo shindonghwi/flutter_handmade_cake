@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:get_it/get_it.dart';
 import 'package:handmade_cake/data/models/base/ApiResponse.dart';
 import 'package:handmade_cake/data/models/order/RequestOrderIndentModel.dart';
+import 'package:handmade_cake/data/models/order/ResponseOrdersModel.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 
+import '../../../models/base/ApiListResponse.dart';
 import '../../../models/order/ResponseOrderImageModel.dart';
 import '../../../models/order/ResponseOrderIndentModel.dart';
 import '../BaseApiUtil.dart';
@@ -28,19 +30,18 @@ class RemoteOrderApi {
     );
 
     final errorResponse = BaseApiUtil.isErrorStatusCode(response);
-      if (errorResponse != null) {
-        return ApiResponse(
-          status: errorResponse.status,
-          message: errorResponse.message,
-          data: null,
-        );
-      } else {
-        return ApiResponse.fromJson(
-          jsonDecode(response.body),
-              (json) => ResponseOrderIndentModel.fromJson(json),
-        );
-      }
-
+    if (errorResponse != null) {
+      return ApiResponse(
+        status: errorResponse.status,
+        message: errorResponse.message,
+        data: null,
+      );
+    } else {
+      return ApiResponse.fromJson(
+        jsonDecode(response.body),
+        (json) => ResponseOrderIndentModel.fromJson(json),
+      );
+    }
   }
 
   /// 주문 이미지 등록
@@ -82,4 +83,56 @@ class RemoteOrderApi {
       );
     }
   }
+
+  /// 주문 목록 조회
+  Future<ApiListResponse<List<ResponseOrdersModel>>> getOrders() async {
+    final response = await Service.getApi(
+      type: ServiceType.Order,
+      endPoint: null,
+      query: "page=1&size=500",
+    );
+
+    final errorResponse = BaseApiUtil.isErrorStatusCode(response);
+    if (errorResponse != null) {
+      return ApiListResponse(
+        status: errorResponse.status,
+        message: errorResponse.message,
+        count: 0,
+        list: [],
+      );
+    } else {
+      return ApiListResponse.fromJson(
+        jsonDecode(response.body),
+            (json) {
+          return List<ResponseOrdersModel>.from(
+            json.map((item) => ResponseOrdersModel.fromJson(item as Map<String, dynamic>)),
+          );
+        },
+      );
+    }
+  }
+
+
+  /// 주문 상세조회
+  Future<ApiResponse<ResponseOrderImageModel>> getOrder(int orderId) async {
+    final response = await Service.getApi(
+      type: ServiceType.Order,
+      endPoint: "$orderId",
+    );
+
+    final errorResponse = BaseApiUtil.isErrorStatusCode(response);
+    if (errorResponse != null) {
+      return ApiResponse(
+        status: errorResponse.status,
+        message: errorResponse.message,
+        data: null,
+      );
+    } else {
+      return ApiResponse.fromJson(
+        jsonDecode(response.body),
+            (json) => ResponseOrderImageModel.fromJson(json),
+      );
+    }
+  }
+
 }
