@@ -114,7 +114,7 @@ class RemoteOrderApi {
 
 
   /// 주문 상세조회
-  Future<ApiResponse<ResponseOrderImageModel>> getOrder(int orderId) async {
+  Future<ApiResponse<ResponseOrdersModel>> getOrder(int orderId) async {
     final response = await Service.getApi(
       type: ServiceType.Order,
       endPoint: "$orderId",
@@ -130,7 +130,7 @@ class RemoteOrderApi {
     } else {
       return ApiResponse.fromJson(
         jsonDecode(response.body),
-            (json) => ResponseOrderImageModel.fromJson(json),
+            (json) => ResponseOrdersModel.fromJson(json),
       );
     }
   }

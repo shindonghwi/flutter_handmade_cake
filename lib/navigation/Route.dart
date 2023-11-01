@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/step2/MakeCakeInfoScreen.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/step3/MakeCakePaymentScreen.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/step4/MakeCakeCompleteScreen.dart';
+import 'package:handmade_cake/presentation/features/detail/DetailOrderScreen.dart';
 import 'package:handmade_cake/presentation/features/main/MainScreen.dart';
 import 'package:handmade_cake/presentation/features/main/mypage/MyPageScreen.dart';
 import 'package:handmade_cake/presentation/features/main/orders/OrdersScreen.dart';
@@ -21,6 +22,7 @@ enum RoutingScreen {
   Orders(route: "/orders"), // 주문 정보
   MyPage(route: "/mypage"), // 내 정보
   Withdrawal(route: "/withdrawal"), // 회원탈퇴 화면
+  DetailOrder(route: "/detail/order"), // 주문 상세
   MakeCakeDrawing(route: "/make/drawing"), // 케이크 제작 그리기
   MakeCakeInfo(route: "/make/info"), // 케이크 정보 작성
   MakeCakePayment(route: "/make/payment"), // 케이크 결제하기
@@ -42,6 +44,7 @@ enum RoutingScreen {
       RoutingScreen.Orders.route: (context) => const OrdersScreen(),
       RoutingScreen.MyPage.route: (context) => const MyPageScreen(),
       RoutingScreen.Withdrawal.route: (context) => const WithdrawalScreen(),
+      RoutingScreen.DetailOrder.route: (context) => const DetailOrderScreen(),
       RoutingScreen.MakeCakeDrawing.route: (context) => const MakeCakeDrawingScreen(),
       RoutingScreen.MakeCakeInfo.route: (context) => const MakeCakeInfoScreen(),
       RoutingScreen.MakeCakePayment.route: (context) => const MakeCakePaymentScreen(),
@@ -65,8 +68,11 @@ enum RoutingScreen {
       return const OrdersScreen();
     } else if (route == RoutingScreen.MyPage.route) {
       return const MyPageScreen();
-    }else if (route == RoutingScreen.Withdrawal.route) {
+    } else if (route == RoutingScreen.Withdrawal.route) {
       return const WithdrawalScreen();
+    } else if (route == RoutingScreen.DetailOrder.route) {
+      int orderId = parameter;
+      return DetailOrderScreen(orderId: orderId);
     } else if (route == RoutingScreen.MakeCakeDrawing.route) {
       return const MakeCakeDrawingScreen();
     } else if (route == RoutingScreen.MakeCakeInfo.route) {

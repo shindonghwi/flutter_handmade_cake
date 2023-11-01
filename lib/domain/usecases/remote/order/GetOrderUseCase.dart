@@ -14,7 +14,7 @@ class GetOrderUseCase {
 
   final RemoteOrderRepository _remoteOrderRepository = GetIt.instance<RemoteOrderRepository>();
 
-  Future<ApiResponse<ResponseOrderImageModel>> call(int orderId) async {
+  Future<ApiResponse<ResponseOrdersModel>> call(int orderId) async {
     return await _remoteOrderRepository.getOrder(orderId);
   }
 }

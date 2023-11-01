@@ -19,5 +19,5 @@ abstract class RemoteOrderRepository {
   Future<ApiListResponse<List<ResponseOrdersModel>>> getOrders();
 
   /// 주문 상세 조회
-  Future<ApiResponse<ResponseOrderImageModel>> getOrder(int orderId);
+  Future<ApiResponse<ResponseOrdersModel>> getOrder(int orderId);
 }

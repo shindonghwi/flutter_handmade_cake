@@ -13,7 +13,7 @@ ResponseOrdersCake _$ResponseOrdersCakeFromJson(Map<String, dynamic> json) =>
       taste: json['taste'] as String,
       jam: json['jam'] as String,
       imageUrl: json['imageUrl'] as String,
-          decorations: (json['decorations'] as List<dynamic>)
+      decorations: (json['decorations'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
     );

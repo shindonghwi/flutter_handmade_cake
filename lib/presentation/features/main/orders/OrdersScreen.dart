@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:handmade_cake/data/models/order/ResponseOrdersModel.dart';
+import 'package:handmade_cake/navigation/PageMoveUtil.dart';
+import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/appbar/TopBarTitle.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
 import 'package:handmade_cake/presentation/components/utils/Clickable.dart';
@@ -103,7 +105,15 @@ class _OrderItem extends StatelessWidget {
                       ),
                 ),
                 Clickable(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      nextSlideScreen(
+                        RoutingScreen.DetailOrder.route,
+                        parameter: item.orderId
+                      ),
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Row(

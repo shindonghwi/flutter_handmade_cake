@@ -34,7 +34,7 @@ class RemoteOrderRepositoryImpl implements RemoteOrderRepository {
   }
 
   @override
-  Future<ApiResponse<ResponseOrderImageModel>> getOrder(int orderId) {
+  Future<ApiResponse<ResponseOrdersModel>> getOrder(int orderId) {
     return remoteOrderApi.getOrder(orderId);
   }
 

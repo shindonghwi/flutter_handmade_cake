@@ -7,8 +7,8 @@ part 'RequestOrderIndentMessage.g.dart';
 @JsonSerializable()
 class RequestOrderIndentMessage {
   final String reason;
-  final String request;
-  final String memo;
+  final String? request;
+  final String? memo;
 
   RequestOrderIndentMessage({
     required this.reason,
