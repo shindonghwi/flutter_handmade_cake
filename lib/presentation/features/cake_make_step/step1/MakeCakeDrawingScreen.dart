@@ -56,7 +56,7 @@ class MakeCakeDrawingScreen extends HookConsumerWidget {
     final cakeImagePathManager = ref.read(cakeImagePath.notifier);
     final isLoading = useState(false);
     final allowScroll = ref.watch(scrollProvider);
-    final tabList = ["시트", "맛", "필링잼", "사이즈"];
+    final tabList = ["시트모양", "시트맛", "필링잼", "사이즈"];
 
     final tabController = useTabController(initialLength: tabList.length);
 
