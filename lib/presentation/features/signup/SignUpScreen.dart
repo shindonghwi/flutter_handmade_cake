@@ -20,7 +20,6 @@ import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:handmade_cake/presentation/utils/RegUtil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SignUpScreen extends HookConsumerWidget {
@@ -39,7 +38,11 @@ class SignUpScreen extends HookConsumerWidget {
     final allAgree = useState(false);
     final agree1 = useState(false);
     final agree2 = useState(false);
-    //
+
+    final emailFocusNode = useFocusNode();
+    final pwFocusNode = useFocusNode();
+    final pwCheckFocusNode = useFocusNode();
+
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (agree1.value && agree2.value == true) {
@@ -130,6 +133,7 @@ class SignUpScreen extends HookConsumerWidget {
                         SizedBox(
                           height: 72,
                           child: UnderLineTextField(
+                            focusNode: emailFocusNode,
                             maxLength: 9999,
                             hint: "이메일을 입력해주세요",
                             successMessage: "올바른 이메일 형식입니다 :)",
@@ -138,6 +142,7 @@ class SignUpScreen extends HookConsumerWidget {
                               RegCheckType.Email,
                             ],
                             onChanged: (text) => emailText.value = text,
+                            onNextAction: () => pwFocusNode.requestFocus(),
                           ),
                         ),
                         Text(
@@ -150,6 +155,7 @@ class SignUpScreen extends HookConsumerWidget {
                         SizedBox(
                           height: 68,
                           child: UnderLineTextField(
+                            focusNode: pwFocusNode,
                             maxLength: 9999,
                             hint: "비밀번호를 입력해주세요",
                             successMessage: "올바른 비밀번호 형식입니다 :)",
@@ -157,6 +163,7 @@ class SignUpScreen extends HookConsumerWidget {
                             textInputType: TextInputType.visiblePassword,
                             showPwVisibleButton: true,
                             onChanged: (text) => pw1Text.value = text,
+                            onNextAction: () => pwCheckFocusNode.requestFocus(),
                           ),
                         ),
                         Text(
@@ -169,6 +176,7 @@ class SignUpScreen extends HookConsumerWidget {
                         SizedBox(
                           height: 68,
                           child: UnderLineTextField(
+                            focusNode: pwCheckFocusNode,
                             maxLength: 9999,
                             hint: "비밀번호를 한번 더 입력해주세요",
                             successMessage: "비밀번호가 일치합니다 :)",

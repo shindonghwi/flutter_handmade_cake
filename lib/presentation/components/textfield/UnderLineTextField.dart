@@ -10,6 +10,7 @@ import 'package:handmade_cake/presentation/utils/RegUtil.dart';
 class UnderLineTextField extends HookWidget {
   final TextEditingController? controller;
   final int maxLength;
+  final FocusNode focusNode;
   final String hint;
   final String successMessage;
   final String errorMessage;
@@ -20,11 +21,13 @@ class UnderLineTextField extends HookWidget {
   final bool enable;
   final List<RegCheckType> checkRegList;
   final List<TextInputFormatter>? inputFormatters;
+  final Function()? onNextAction;
   final Function(String)? onChanged;
 
   const UnderLineTextField({
     Key? key,
     this.controller,
+    required this.focusNode,
     required this.maxLength,
     required this.hint,
     this.successMessage = '',
@@ -36,6 +39,7 @@ class UnderLineTextField extends HookWidget {
     this.checkRegList = const [],
     this.textInputAction = TextInputAction.next,
     this.inputFormatters = const [],
+    this.onNextAction,
     this.onChanged,
   }) : super(key: key);
 
@@ -50,9 +54,9 @@ class UnderLineTextField extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
+          focusNode: focusNode,
           controller: controller,
           onChanged: (text) {
-
             for (var element in checkRegList) {
               if (element == RegCheckType.Email) {
                 isSuccess.value = RegUtil.checkEmail(text);
@@ -81,7 +85,7 @@ class UnderLineTextField extends HookWidget {
               ),
           onSubmitted: (text) {
             if (textInputAction == TextInputAction.next) {
-              FocusScope.of(context).nextFocus();
+              onNextAction?.call();
             } else if (textInputAction == TextInputAction.done) {
               FocusScope.of(context).unfocus();
             }
@@ -100,8 +104,8 @@ class UnderLineTextField extends HookWidget {
                 color: isSuccess.value == true && successMessage.isNotEmpty
                     ? getColorScheme(context).colorGray300
                     : (forceErrorCheck || isSuccess.value == false) && errorMessage.isNotEmpty
-                    ? getColorScheme(context).colorError500
-                    : getColorScheme(context).colorGray300,
+                        ? getColorScheme(context).colorError500
+                        : getColorScheme(context).colorGray300,
                 width: 1.0, // Adjust the width as needed
               ),
             ),
@@ -110,19 +114,18 @@ class UnderLineTextField extends HookWidget {
                 color: isSuccess.value == true && successMessage.isNotEmpty
                     ? getColorScheme(context).colorGray300
                     : (forceErrorCheck || isSuccess.value == false) && errorMessage.isNotEmpty
-                    ? getColorScheme(context).colorError500
-                    : getColorScheme(context).colorGray300,
+                        ? getColorScheme(context).colorError500
+                        : getColorScheme(context).colorGray300,
                 width: 1.0, // Adjust the width as needed
               ),
             ),
-
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: isSuccess.value == true && successMessage.isNotEmpty
                     ? getColorScheme(context).colorPrimary500
                     : (forceErrorCheck || isSuccess.value == false) && errorMessage.isNotEmpty
-                    ? getColorScheme(context).colorError500
-                    : getColorScheme(context).colorGray300,
+                        ? getColorScheme(context).colorError500
+                        : getColorScheme(context).colorGray300,
                 width: 1.0, // Adjust the width as needed
               ),
             ),
@@ -145,14 +148,15 @@ class UnderLineTextField extends HookWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: SvgPicture.asset(
-                              isPwVisible.value == true ? "assets/imgs/icon_view.svg" : "assets/imgs/icon_view_hide.svg",
+                              isPwVisible.value == true
+                                  ? "assets/imgs/icon_view.svg"
+                                  : "assets/imgs/icon_view_hide.svg",
                               width: 20,
                               height: 20,
                               colorFilter: ColorFilter.mode(
                                 getColorScheme(context).colorGray500,
                                 BlendMode.srcIn,
-                              )
-                          ),
+                              )),
                         ),
                       ),
                     ),
@@ -161,7 +165,6 @@ class UnderLineTextField extends HookWidget {
             ),
           ),
         ),
-
         if (isSuccess.value == true && successMessage.isNotEmpty)
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -172,10 +175,8 @@ class UnderLineTextField extends HookWidget {
               ),
               Text(
                 successMessage.toString(),
-                style: getTextTheme(context).medium.copyWith(
-                  color: getColorScheme(context).colorPrimary500,
-                  fontSize: 12
-                ),
+                style:
+                    getTextTheme(context).medium.copyWith(color: getColorScheme(context).colorPrimary500, fontSize: 12),
               ),
             ],
           ),
@@ -189,10 +190,8 @@ class UnderLineTextField extends HookWidget {
               ),
               Text(
                 errorMessage.toString(),
-                style: getTextTheme(context).medium.copyWith(
-                  color: getColorScheme(context).colorError500,
-                    fontSize: 12
-                ),
+                style:
+                    getTextTheme(context).medium.copyWith(color: getColorScheme(context).colorError500, fontSize: 12),
               ),
             ],
           ),

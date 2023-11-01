@@ -59,6 +59,9 @@ class SignInScreen extends HookConsumerWidget {
       return null;
     }, [loginState]);
 
+    final emailFocusNode = useFocusNode();
+    final pwFocusNode = useFocusNode();
+
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
       body: SafeArea(
@@ -87,6 +90,7 @@ class SignInScreen extends HookConsumerWidget {
                     SizedBox(
                       height: 68,
                       child: UnderLineTextField(
+                        focusNode: emailFocusNode,
                         maxLength: 9999,
                         hint: "이메일을 입력해주세요",
                         successMessage: "올바른 이메일 형식입니다 :)",
@@ -98,20 +102,23 @@ class SignInScreen extends HookConsumerWidget {
                           loginManager.updateEmail(text);
                           emailText.value = text;
                         },
+                        onNextAction: () => emailFocusNode.requestFocus(),
                       ),
                     ),
-                    // const SizedBox(height: 8),
                     SizedBox(
                       height: 68,
                       child: UnderLineTextField(
-                          maxLength: 9999,
-                          hint: "비밀번호를 입력해주세요",
-                          textInputType: TextInputType.visiblePassword,
-                          showPwVisibleButton: true,
-                          onChanged: (text) {
-                            loginManager.updatePassword(text);
-                            pwText.value = text;
-                          }),
+                        focusNode: pwFocusNode,
+                        maxLength: 9999,
+                        hint: "비밀번호를 입력해주세요",
+                        textInputType: TextInputType.visiblePassword,
+                        showPwVisibleButton: true,
+                        textInputAction: TextInputAction.done,
+                        onChanged: (text) {
+                          loginManager.updatePassword(text);
+                          pwText.value = text;
+                        },
+                      ),
                     ),
                     const SizedBox(height: 16),
                     SizedBox(

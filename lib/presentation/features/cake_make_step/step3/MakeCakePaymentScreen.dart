@@ -38,6 +38,11 @@ class MakeCakePaymentScreen extends HookConsumerWidget {
     final destination = useState<String>("");
     final memo = useState<String>("");
 
+    final recipientFocusNode = useFocusNode();
+    final contactFocusNode = useFocusNode();
+    final destinationFocusNode = useFocusNode();
+    final memoFocusNode = useFocusNode();
+
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         cakeIndentManager.updatePrice(cakeIndentManager.getTotalPrice());
@@ -98,22 +103,43 @@ class MakeCakePaymentScreen extends HookConsumerWidget {
                               ),
                         ),
                       ),
-                      _Recipient(onChanged: (text) {
-                        cakeIndentManager.updateReceiverName(text);
-                        recipient.value = text;
-                      }),
-                      _Contact(onChanged: (text) {
-                        cakeIndentManager.updateReceiverPhone(text);
-                        contact.value = text;
-                      }),
-                      _Destination(onChanged: (text) {
-                        cakeIndentManager.updateReceiverAddress(text);
-                        destination.value = text;
-                      }),
-                      _Memo(onChanged: (text) {
-                        cakeIndentManager.updateMemo(text);
-                        memo.value = text;
-                      })
+                      _Recipient(
+                        focusNode: recipientFocusNode,
+                        onNextAction: () {
+                          contactFocusNode.requestFocus();
+                        },
+                        onChanged: (text) {
+                          cakeIndentManager.updateReceiverName(text);
+                          recipient.value = text;
+                        },
+                      ),
+                      _Contact(
+                        focusNode: contactFocusNode,
+                        onNextAction: (){
+                          destinationFocusNode.requestFocus();
+                        },
+                        onChanged: (text) {
+                          cakeIndentManager.updateReceiverPhone(text);
+                          contact.value = text;
+                        },
+                      ),
+                      _Destination(
+                        focusNode: destinationFocusNode,
+                        onNextAction: (){
+                          memoFocusNode.requestFocus();
+                        },
+                        onChanged: (text) {
+                          cakeIndentManager.updateReceiverAddress(text);
+                          destination.value = text;
+                        },
+                      ),
+                      _Memo(
+                        focusNode: memoFocusNode,
+                        onChanged: (text) {
+                          cakeIndentManager.updateMemo(text);
+                          memo.value = text;
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -139,10 +165,14 @@ class MakeCakePaymentScreen extends HookConsumerWidget {
 }
 
 class _Recipient extends StatelessWidget {
+  final FocusNode focusNode;
+  final Function() onNextAction;
   final Function(String) onChanged;
 
   const _Recipient({
     super.key,
+    required this.focusNode,
+    required this.onNextAction,
     required this.onChanged,
   });
 
@@ -164,9 +194,11 @@ class _Recipient extends StatelessWidget {
             height: 8,
           ),
           UnderLineTextField(
+            focusNode: focusNode,
             maxLength: 9999,
             hint: "수령인을 입력해주세요",
             onChanged: (value) => onChanged.call(value),
+            onNextAction: () => onNextAction.call(),
           )
         ],
       ),
@@ -175,10 +207,14 @@ class _Recipient extends StatelessWidget {
 }
 
 class _Contact extends StatelessWidget {
+  final FocusNode focusNode;
+  final Function() onNextAction;
   final Function(String) onChanged;
 
   const _Contact({
     super.key,
+    required this.focusNode,
+    required this.onNextAction,
     required this.onChanged,
   });
 
@@ -200,9 +236,12 @@ class _Contact extends StatelessWidget {
             height: 8,
           ),
           UnderLineTextField(
+            focusNode: focusNode,
             maxLength: 9999,
+            textInputType: TextInputType.phone,
             hint: "연락처를 입력해주세요",
             onChanged: (value) => onChanged.call(value),
+            onNextAction: () => onNextAction.call(),
           )
         ],
       ),
@@ -211,10 +250,14 @@ class _Contact extends StatelessWidget {
 }
 
 class _Destination extends StatelessWidget {
+  final FocusNode focusNode;
+  final Function() onNextAction;
   final Function(String) onChanged;
 
   const _Destination({
     super.key,
+    required this.focusNode,
+    required this.onNextAction,
     required this.onChanged,
   });
 
@@ -236,9 +279,11 @@ class _Destination extends StatelessWidget {
             height: 8,
           ),
           UnderLineTextField(
+            focusNode: focusNode,
             maxLength: 9999,
             hint: "배송지를 입력해주세요",
             onChanged: (value) => onChanged.call(value),
+            onNextAction: () => onNextAction.call(),
           )
         ],
       ),
@@ -247,10 +292,12 @@ class _Destination extends StatelessWidget {
 }
 
 class _Memo extends StatelessWidget {
+  final FocusNode focusNode;
   final Function(String) onChanged;
 
   const _Memo({
     super.key,
+    required this.focusNode,
     required this.onChanged,
   });
 
@@ -272,8 +319,10 @@ class _Memo extends StatelessWidget {
             height: 8,
           ),
           UnderLineTextField(
+            focusNode: focusNode,
             maxLength: 9999,
             hint: "배송메모를 입력해주세요",
+            textInputAction: TextInputAction.done,
             onChanged: (value) => onChanged.call(value),
           )
         ],

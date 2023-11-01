@@ -31,6 +31,8 @@ class MakeCakeInfoScreen extends HookConsumerWidget {
     var reason = useState("");
     var request = "";
 
+    final memoFocusNode = useFocusNode();
+
     return BaseScaffold(
       backgroundColor: getColorScheme(context).white,
       appBar: const TopBarIconTitleText(
@@ -65,8 +67,12 @@ class MakeCakeInfoScreen extends HookConsumerWidget {
                 onChanged: (text) {
                   reason.value = text;
                 },
+                onNextAction: () {
+                  memoFocusNode.requestFocus();
+                },
               ),
               _CakeRequestTerm(
+                focusNode: memoFocusNode,
                 onChanged: (text) {
                   request = text;
                 },
@@ -133,9 +139,11 @@ class _CakeInfo extends HookWidget {
 
 class _CakePurpose extends HookWidget {
   final Function(String) onChanged;
+  final Function() onNextAction;
 
   const _CakePurpose({
     super.key,
+    required this.onNextAction,
     required this.onChanged,
   });
 
@@ -158,10 +166,12 @@ class _CakePurpose extends HookWidget {
           height: 12,
         ),
         OutLineTextField(
+          focusNode: useFocusNode(),
           maxLength: 9999,
           hint: "예) 생일, 결혼식, 출산, 친구 선물 등",
           textInputAction: TextInputAction.next,
           onChanged: (text) => onChanged.call(text),
+          onNextAction: () => onNextAction.call(),
         ),
       ],
     );
@@ -169,10 +179,12 @@ class _CakePurpose extends HookWidget {
 }
 
 class _CakeRequestTerm extends HookWidget {
+  final FocusNode focusNode;
   final Function(String) onChanged;
 
   const _CakeRequestTerm({
     super.key,
+    required this.focusNode,
     required this.onChanged,
   });
 
@@ -195,6 +207,7 @@ class _CakeRequestTerm extends HookWidget {
           height: 12,
         ),
         OutLineTextField(
+          focusNode: focusNode,
           maxLength: 9999,
           maxLines: 5,
           hint: "예) 색상, 테마, 특이사항 등",

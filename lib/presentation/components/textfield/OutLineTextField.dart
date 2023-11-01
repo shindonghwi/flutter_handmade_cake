@@ -9,6 +9,7 @@ import 'package:handmade_cake/presentation/utils/RegUtil.dart';
 
 class OutLineTextField extends HookWidget {
   final TextEditingController? controller;
+  final FocusNode focusNode;
   final int maxLength;
   final int maxLines;
   final String hint;
@@ -21,11 +22,13 @@ class OutLineTextField extends HookWidget {
   final bool enable;
   final List<RegCheckType> checkRegList;
   final List<TextInputFormatter>? inputFormatters;
+  final Function()? onNextAction;
   final Function(String)? onChanged;
 
   const OutLineTextField({
     Key? key,
     this.controller,
+    required this.focusNode,
     required this.maxLength,
     required this.hint,
     this.maxLines = 1,
@@ -38,6 +41,7 @@ class OutLineTextField extends HookWidget {
     this.checkRegList = const [],
     this.textInputAction = TextInputAction.next,
     this.inputFormatters = const [],
+    this.onNextAction,
     this.onChanged,
   }) : super(key: key);
 
@@ -52,6 +56,7 @@ class OutLineTextField extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
+          focusNode: focusNode,
           controller: controller,
           onChanged: (text) {
 
@@ -84,7 +89,7 @@ class OutLineTextField extends HookWidget {
           maxLines: maxLines,
           onSubmitted: (text) {
             if (textInputAction == TextInputAction.next) {
-              FocusScope.of(context).nextFocus();
+              onNextAction?.call();
             } else if (textInputAction == TextInputAction.done) {
               FocusScope.of(context).unfocus();
             }
