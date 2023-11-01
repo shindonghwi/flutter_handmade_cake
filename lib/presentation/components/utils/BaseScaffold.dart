@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:handmade_cake/presentation/components/canvas/ResizableImage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -31,16 +32,19 @@ class BaseScaffold extends HookConsumerWidget {
     return Scaffold(
       appBar: appBar,
       backgroundColor: backgroundColor,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-          if (isCanvasMode){
-            final focusedWidgetKeyRead = ref.read(focusedWidgetProvider.notifier);
-            focusedWidgetKeyRead.state = null;
-          }
-        },
-        behavior: HitTestBehavior.translucent,
-        child: body,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            if (isCanvasMode){
+              final focusedWidgetKeyRead = ref.read(focusedWidgetProvider.notifier);
+              focusedWidgetKeyRead.state = null;
+            }
+          },
+          behavior: HitTestBehavior.translucent,
+          child: body,
+        ),
       ),
       extendBody: extendBody,
       floatingActionButton: floatingActionButton,

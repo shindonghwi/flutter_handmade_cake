@@ -62,6 +62,7 @@ class DetailOrderScreen extends HookConsumerWidget {
 
     return BaseScaffold(
       appBar: const TopBarIconTitleText(content: '주문상세'),
+      backgroundColor: getColorScheme(context).white,
       body: SafeArea(
         child: Stack(
           children: [

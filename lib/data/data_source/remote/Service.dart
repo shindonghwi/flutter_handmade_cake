@@ -241,6 +241,7 @@ enum ServiceType {
   Auth,
   Me,
   Order,
+  Notice,
   Web,
 }
 
@@ -249,6 +250,7 @@ class _ServiceTypeHelper {
     ServiceType.Auth: "auth",
     ServiceType.Me: "me",
     ServiceType.Order: "orders",
+    ServiceType.Notice: "notices",
     ServiceType.Web: "web",
   };
 

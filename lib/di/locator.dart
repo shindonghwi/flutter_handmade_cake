@@ -2,14 +2,17 @@ import 'package:get_it/get_it.dart';
 import 'package:handmade_cake/data/data_source/local/app/LocalAppApi.dart';
 import 'package:handmade_cake/data/data_source/remote/auth/RemoteAuthApi.dart';
 import 'package:handmade_cake/data/data_source/remote/me/RemoteMeApi.dart';
+import 'package:handmade_cake/data/data_source/remote/notice/RemoteNoticeApi.dart';
 import 'package:handmade_cake/data/data_source/remote/order/RemoteOrderApi.dart';
 import 'package:handmade_cake/data/repositories/local/app/LocalAppRepositoryImpl.dart';
 import 'package:handmade_cake/data/repositories/remote/auth/RemoteAuthRepositoryImpl.dart';
 import 'package:handmade_cake/data/repositories/remote/me/RemoteMeRepositoryImpl.dart';
+import 'package:handmade_cake/data/repositories/remote/notice/RemoteNoticeRepositoryImpl.dart';
 import 'package:handmade_cake/data/repositories/remote/order/RemoteOrderRepositoryImpl.dart';
 import 'package:handmade_cake/domain/repositories/local/app/LocalAppRepository.dart';
 import 'package:handmade_cake/domain/repositories/remote/auth/RemoteAuthRepository.dart';
 import 'package:handmade_cake/domain/repositories/remote/me/RemoteMeRepository.dart';
+import 'package:handmade_cake/domain/repositories/remote/notice/RemoteNoticeRepository.dart';
 import 'package:handmade_cake/domain/repositories/remote/order/RemoteOrderRepository.dart';
 import 'package:handmade_cake/domain/usecases/local/app/GetLoginAccessTokenUseCase.dart';
 import 'package:handmade_cake/domain/usecases/local/app/PostLoginAccessTokenUseCase.dart';
@@ -19,6 +22,7 @@ import 'package:handmade_cake/domain/usecases/remote/me/GetMeInfoUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/me/PatchMePwUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/me/PostMeJoinUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/me/PostMeLeaveUseCase.dart';
+import 'package:handmade_cake/domain/usecases/remote/notice/GetNoticesUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/order/GetOrderUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/order/GetOrdersUseCase.dart';
 import 'package:handmade_cake/domain/usecases/remote/order/PostImageUseCase.dart';
@@ -57,6 +61,9 @@ void initServiceLocator() {
   GetIt.instance.registerLazySingleton<GetOrdersUseCase>(() => GetOrdersUseCase());
   GetIt.instance.registerLazySingleton<GetOrderUseCase>(() => GetOrderUseCase());
 
+  // notice
+  GetIt.instance.registerLazySingleton<GetNoticesUseCase>(() => GetNoticesUseCase());
+
   /// -------
   /// repository
   /// -------
@@ -64,6 +71,7 @@ void initServiceLocator() {
   GetIt.instance.registerLazySingleton<RemoteMeRepository>(() => RemoteMeRepositoryImpl());
   GetIt.instance.registerLazySingleton<RemoteAuthRepository>(() => RemoteAuthRepositoryImpl());
   GetIt.instance.registerLazySingleton<RemoteOrderRepository>(() => RemoteOrderRepositoryImpl());
+  GetIt.instance.registerLazySingleton<RemoteNoticeRepository>(() => RemoteNoticeRepositoryImpl());
 
   /// -------
   /// api
@@ -72,4 +80,5 @@ void initServiceLocator() {
   GetIt.instance.registerLazySingleton<RemoteAuthApi>(() => RemoteAuthApi());
   GetIt.instance.registerLazySingleton<RemoteMeApi>(() => RemoteMeApi());
   GetIt.instance.registerLazySingleton<RemoteOrderApi>(() => RemoteOrderApi());
+  GetIt.instance.registerLazySingleton<RemoteNoticeApi>(() => RemoteNoticeApi());
 }

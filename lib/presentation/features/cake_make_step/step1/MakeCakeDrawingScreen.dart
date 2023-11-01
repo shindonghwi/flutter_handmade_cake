@@ -5,14 +5,19 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:handmade_cake/data/models/notice/ResponseNoticeModel.dart';
 import 'package:handmade_cake/navigation/PageMoveUtil.dart';
 import 'package:handmade_cake/navigation/Route.dart';
 import 'package:handmade_cake/presentation/components/appbar/TopBarIconTitleText.dart';
 import 'package:handmade_cake/presentation/components/button/PrimaryFilledButton.dart';
+import 'package:handmade_cake/presentation/components/popup/CommonPopup.dart';
+import 'package:handmade_cake/presentation/components/popup/PopupNotice.dart';
+import 'package:handmade_cake/presentation/components/toast/Toast.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/provider/CakeFilingProvider.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/provider/CakeFlavorProvider.dart';
 import 'package:handmade_cake/presentation/features/cake_make_step/provider/CakeSizeProvider.dart';
+import 'package:handmade_cake/presentation/features/cake_make_step/step1/provider/NoticeProvider.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
@@ -41,6 +46,8 @@ class MakeCakeDrawingScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final noticeState = ref.watch(noticeProvider);
+    final noticeManager = ref.read(noticeProvider.notifier);
     final canvasWidgetsManager = ref.read(canvasWidgetsProvider.notifier);
     final cakeFilingManager = ref.read(cakeFilingProvider.notifier);
     final cakeFlavorManager = ref.read(cakeFlavorProvider.notifier);
@@ -55,6 +62,7 @@ class MakeCakeDrawingScreen extends HookConsumerWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        noticeManager.requestNotices();
         cakeFilingManager.init();
         cakeFlavorManager.init();
         cakeSizeManager.init();
@@ -62,8 +70,26 @@ class MakeCakeDrawingScreen extends HookConsumerWidget {
         cakeImagePathManager.state = null;
         cakeIndentManager.init();
       });
+      return () {
+        Future(() {
+          noticeManager.init();
+        });
+      };
+    }, []);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        noticeState.when(
+          success: (event) async {
+            CommonPopup.showPopup(context, child: PopupNotice(items: event.value));
+          },
+          failure: (event) {
+            Toast.showError(context, event.errorMessage);
+          },
+        );
+      });
       return null;
-    },[]);
+    }, [noticeState]);
 
     return BaseScaffold(
       isCanvasMode: true,

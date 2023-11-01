@@ -154,7 +154,7 @@ class _OrderItem extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 140,
+            height: 150,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -162,7 +162,7 @@ class _OrderItem extends StatelessWidget {
                   width: 140,
                   height: 140,
                   margin: const EdgeInsets.only(left: 24.0),
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(4.0),
                   child: CachedNetworkImage(
                     imageUrl: item.cake.imageUrl,
                     placeholder: (context, url) => SizedBox(
@@ -188,7 +188,7 @@ class _OrderItem extends StatelessWidget {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
@@ -221,7 +221,7 @@ class _OrderItem extends StatelessWidget {
                             Text(
                               "사이즈: ${item.cake.size}\n맛: ${item.cake.taste} / ${item.cake.jam}\n데코레이션: ${item.cake.decorations.join(", ")}",
                               style: getTextTheme(context).medium.copyWith(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: getColorScheme(context).colorGray500,
                                     height: 1.4,
                                   ),
@@ -231,11 +231,11 @@ class _OrderItem extends StatelessWidget {
                         Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 6.0),
+                              padding: const EdgeInsets.only(top: 4.0),
                               child: Text(
                                 "${NumberFormat('#,###').format(int.parse(item.price.total.toString()))}원",
                                 style: getTextTheme(context).semiBold.copyWith(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: getColorScheme(context).black,
                                     ),
                               ),

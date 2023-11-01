@@ -46,7 +46,7 @@ class SignInScreen extends HookConsumerWidget {
             if (loginManager.meInfo != null) {
               meInfoManager.updateMeInfo(loginManager.meInfo);
             }
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               nextFadeInOutScreen(RoutingScreen.Main.route),
             );
