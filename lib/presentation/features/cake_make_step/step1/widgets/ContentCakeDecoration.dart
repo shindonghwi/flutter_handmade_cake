@@ -11,7 +11,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../provider/CanvasWidgetsProvider.dart';
 
-
 class ContentCakeDecoration extends HookConsumerWidget {
   const ContentCakeDecoration({super.key});
 
@@ -104,7 +103,7 @@ class ContentCakeDecoration extends HookConsumerWidget {
 
                         final name = deco.first;
 
-                        switch(name){
+                        switch (name) {
                           case "수국1":
                             cakeIndentManager.addDecoration("HY1");
                           case "수국2":
@@ -131,11 +130,14 @@ class ContentCakeDecoration extends HookConsumerWidget {
                             break;
                         }
 
+                        final widgetKey = "${deco.first}_${DateTime.now().millisecondsSinceEpoch}";
+
                         canvasWidgetsRead.addWidget(
                           ResizableImage(
-                            widgetKey: "${deco.first}_${DateTime.now().millisecondsSinceEpoch}",
+                            widgetKey: widgetKey,
                             path: deco.second,
                           ),
+                          widgetKey,
                         );
                       },
                       child: Container(),

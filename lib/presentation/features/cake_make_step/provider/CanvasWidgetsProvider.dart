@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final canvasWidgetsProvider = StateNotifierProvider<CanvasWidgetsNotifier, List<Widget>>(
+import '../../../utils/dto/Pair.dart';
+
+final canvasWidgetsProvider = StateNotifierProvider<CanvasWidgetsNotifier, List<Pair<Widget, String?>>>(
   (_) => CanvasWidgetsNotifier(),
 );
 
-class CanvasWidgetsNotifier extends StateNotifier<List<Widget>> {
+class CanvasWidgetsNotifier extends StateNotifier<List<Pair<Widget, String?>>> {
   CanvasWidgetsNotifier() : super([]);
 
   void setBackgroundWidget(Widget widget) {
@@ -15,14 +17,21 @@ class CanvasWidgetsNotifier extends StateNotifier<List<Widget>> {
       state.removeAt(0);
     }
 
-    state.insert(0, widget);
+    state.insert(0, Pair(widget, null));
     state = List.from(state);
     debugPrint("widget count: ${state.length}");
   }
 
-  void addWidget(Widget widget) {
+  void addWidget(Widget widget, String widgetKey) {
     debugPrint("widget count: ${state.length}");
-    state.add(widget);
+    state.add(Pair(widget, widgetKey));
+    state = List.from(state);
+    debugPrint("widget count: ${state.length}");
+  }
+
+  void removeWidget(String widgetKey) {
+    debugPrint("widget count: ${state.length}");
+    state.removeWhere((element) => element.second == widgetKey);
     state = List.from(state);
     debugPrint("widget count: ${state.length}");
   }

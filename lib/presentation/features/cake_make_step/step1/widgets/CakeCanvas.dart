@@ -7,6 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../provider/CanvasWidgetsProvider.dart';
 import '../MakeCakeDrawingScreen.dart';
 
+
+
 class CakeCanvas extends HookConsumerWidget {
   const CakeCanvas({super.key});
 
@@ -30,7 +32,7 @@ class CakeCanvas extends HookConsumerWidget {
               child: RepaintBoundary(
                 key: canvasGlobalKey, // Attach the global key here
                 child: Stack(
-                  children: canvasWidgets.map((e) => e).toList(),
+                  children: canvasWidgets.map((e) => e.first).toList(),
                 ),
               ),
             ),
