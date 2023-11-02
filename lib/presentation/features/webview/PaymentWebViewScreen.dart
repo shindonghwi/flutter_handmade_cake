@@ -28,7 +28,7 @@ class PaymentWebViewScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    MethodChannel channel = const MethodChannel("webview_channel");
+    MethodChannel channel = const MethodChannel("결");
 
     final isLoading = useState(true);
     final controller = useState<WebViewController?>(null);
@@ -75,11 +75,14 @@ class PaymentWebViewScreen extends HookWidget {
                   return NavigationDecision.navigate; // WebView에서 URL 로딩
                 }
 
-                if (Platform.isAndroid) {
-                  final shouldOverride = await channel.invokeMethod('getAppUrl', <String, Object>{'url': request.url});
-                  if (shouldOverride) {
-                    return NavigationDecision.prevent;
-                  }
+                bool? shouldOverride;
+
+                if (Platform.isAndroid || Platform.isIOS) {
+                  shouldOverride = await channel.invokeMethod('getAppUrl', <String, Object>{'url': request.url});
+                }
+
+                if (shouldOverride == true) {
+                  return NavigationDecision.prevent;
                 } else if (Platform.isIOS) {
                   if (uri.scheme == 'about' && uri.path == 'blank') {
                     debugPrint("Skipping special URL: $uri"); // Log
