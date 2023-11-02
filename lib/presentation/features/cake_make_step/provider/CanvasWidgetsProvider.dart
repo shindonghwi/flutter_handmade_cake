@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:handmade_cake/presentation/utils/dto/Triple.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../utils/dto/Pair.dart';
 
-final canvasWidgetsProvider = StateNotifierProvider<CanvasWidgetsNotifier, List<Pair<Widget, String?>>>(
+final canvasWidgetsProvider = StateNotifierProvider<CanvasWidgetsNotifier, List<Triple<Widget, String?, String?>>>(
   (_) => CanvasWidgetsNotifier(),
 );
 
-class CanvasWidgetsNotifier extends StateNotifier<List<Pair<Widget, String?>>> {
+class CanvasWidgetsNotifier extends StateNotifier<List<Triple<Widget, String?, String?>>> {
   CanvasWidgetsNotifier() : super([]);
 
   void setBackgroundWidget(Widget widget) {
@@ -17,14 +18,14 @@ class CanvasWidgetsNotifier extends StateNotifier<List<Pair<Widget, String?>>> {
       state.removeAt(0);
     }
 
-    state.insert(0, Pair(widget, null));
+    state.insert(0, Triple(widget, null, null));
     state = List.from(state);
     debugPrint("widget count: ${state.length}");
   }
 
-  void addWidget(Widget widget, String widgetKey) {
+  void addWidget(Widget widget, String widgetKey, String decorationType) {
     debugPrint("widget count: ${state.length}");
-    state.add(Pair(widget, widgetKey));
+    state.add(Triple(widget, widgetKey, decorationType));
     state = List.from(state);
     debugPrint("widget count: ${state.length}");
   }

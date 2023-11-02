@@ -15,6 +15,7 @@ import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../cake_make_step/provider/CakeIndentProvider.dart';
 import 'provider/OrderProvider.dart';
 
 class DetailOrderScreen extends HookConsumerWidget {
@@ -114,12 +115,27 @@ class _CakeInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          item.message.reason,
-          style: getTextTheme(context).semiBold.copyWith(
-                fontSize: 24,
-                color: getColorScheme(context).black,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "케이크 제작 목적",
+              style: getTextTheme(context).semiBold.copyWith(
+                    fontSize: 20,
+                    color: getColorScheme(context).black,
+                  ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0, top: 4),
+              child: Text(
+                "- ${item.message.reason}",
+                style: getTextTheme(context).medium.copyWith(
+                      fontSize: 16,
+                      color: getColorScheme(context).colorGray800,
+                    ),
               ),
+            ),
+          ],
         ),
         Padding(
           padding: const EdgeInsets.only(top: 32.0),
@@ -155,6 +171,28 @@ class _CakeInfo extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "배송상태",
+                style: getTextTheme(context).semiBold.copyWith(
+                      fontSize: 20,
+                      color: getColorScheme(context).black,
+                    ),
+              ),
+              Text(
+                item.status,
+                style: getTextTheme(context).bold.copyWith(
+                      fontSize: 16,
+                      color: getColorScheme(context).black,
+                    ),
+              ),
+            ],
           ),
         ),
         Padding(
@@ -346,7 +384,7 @@ class _ReceiverInfo extends StatelessWidget {
   }
 }
 
-class _PriceInfo extends StatelessWidget {
+class _PriceInfo extends HookConsumerWidget {
   const _PriceInfo({
     super.key,
     required this.item,
@@ -355,7 +393,18 @@ class _PriceInfo extends StatelessWidget {
   final ResponseOrdersModel item;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
+
+    Widget divider() {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        width: double.infinity,
+        height: 1,
+        color: getColorScheme(context).colorGray100,
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -366,63 +415,130 @@ class _PriceInfo extends StatelessWidget {
                 color: getColorScheme(context).black,
               ),
         ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "케이크 가격",
-              style: getTextTheme(context).regular.copyWith(
-                    fontSize: 14,
-                    color: getColorScheme(context).black,
-                  ),
-            ),
-            Text(
-              "${NumberFormat('#,###').format(int.parse(item.price.total.toString()) - 4900)}원",
-              style: getTextTheme(context).regular.copyWith(
-                    fontSize: 12,
-                    color: getColorScheme(context).black,
-                  ),
-            ),
-          ],
-        ),
         SizedBox(height: 12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "배송비",
-              style: getTextTheme(context).regular.copyWith(
-                    fontSize: 14,
-                    color: getColorScheme(context).black,
-                  ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "사이즈: ${item.cake.size} ",
+                  style: getTextTheme(context)
+                      .regular
+                      .copyWith(fontSize: 12, color: getColorScheme(context).colorGray800, height: 1.4),
+                ),
+                Text(
+                  item.cake.size == "1호"
+                      ? "40,000원"
+                      : item.cake.size == "2호"
+                          ? "50,000원"
+                          : "60,000원",
+                  style: getTextTheme(context).regular.copyWith(
+                        fontSize: 14,
+                        color: getColorScheme(context).black,
+                      ),
+                ),
+              ],
             ),
-            Text(
-              "4,900원",
-              style: getTextTheme(context).regular.copyWith(
-                    fontSize: 12,
-                    color: getColorScheme(context).black,
+            if (item.cake.decorations.isNotEmpty)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "데코레이션",
+                              style: getTextTheme(context).regular.copyWith(
+                                    fontSize: 12,
+                                    color: getColorScheme(context).colorGray800,
+                                    height: 1.4,
+                                  ),
+                            ),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12.0, top: 2),
+                                  child: Column(
+                                    children: item.cake.decorations.map((deco) {
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "- $deco",
+                                            style: getTextTheme(context).regular.copyWith(
+                                                fontSize: 12, color: getColorScheme(context).colorGray500, height: 1.6),
+                                          ),
+                                          Text(
+                                            "${NumberFormat('#,###').format(cakeIndentManager.getDecorationPrice(deco))}원",
+                                            style: getTextTheme(context).regular.copyWith(
+                                                  fontSize: 14,
+                                                  color: getColorScheme(context).black,
+                                                ),
+                                          ),
+                                        ],
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+                ],
+              ),
+            divider(),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "배송비",
+                  style: getTextTheme(context).regular.copyWith(
+                        fontSize: 12,
+                        color: getColorScheme(context).colorGray800,
+                        height: 1.4,
+                      ),
+                ),
+                Text(
+                  "4,900원",
+                  style: getTextTheme(context).regular.copyWith(
+                        fontSize: 14,
+                        color: getColorScheme(context).black,
+                      ),
+                ),
+              ],
             ),
-          ],
-        ),
-        SizedBox(height: 12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "합계",
-              style: getTextTheme(context).regular.copyWith(
-                    fontSize: 14,
-                    color: getColorScheme(context).black,
-                  ),
-            ),
-            Text(
-              "${NumberFormat('#,###').format(int.parse(item.price.total.toString()))}원",
-              style: getTextTheme(context).bold.copyWith(
-                    fontSize: 14,
-                    color: getColorScheme(context).black,
-                  ),
+            divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "총 결제금액",
+                  style: getTextTheme(context).medium.copyWith(
+                        fontSize: 16,
+                        color: getColorScheme(context).colorGray800,
+                        height: 1.4,
+                      ),
+                ),
+                Text(
+                  "${NumberFormat('#,###').format(item.price.total)}원",
+                  style: getTextTheme(context).regular.copyWith(
+                        fontSize: 14,
+                        color: getColorScheme(context).black,
+                      ),
+                ),
+              ],
             ),
           ],
         ),

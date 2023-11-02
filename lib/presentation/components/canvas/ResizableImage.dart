@@ -7,6 +7,7 @@ import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../features/cake_make_step/provider/CakeIndentProvider.dart';
 import '../../features/cake_make_step/step1/MakeCakeDrawingScreen.dart';
 
 final focusedWidgetProvider = StateProvider<String?>((_) => null);
@@ -30,11 +31,13 @@ final positionProvider = StateNotifierProvider.family<PositionController, Offset
 class ResizableImage extends HookConsumerWidget {
   final String widgetKey;
   final String path;
+  final String decorationType;
 
   const ResizableImage({
     Key? key,
     required this.widgetKey,
     required this.path,
+    required this.decorationType,
   }) : super(key: key);
 
   @override
@@ -44,6 +47,7 @@ class ResizableImage extends HookConsumerWidget {
     final focusedWidgetKey = ref.watch(focusedWidgetProvider);
     final focusedWidgetKeManager = ref.read(focusedWidgetProvider.notifier);
 
+    final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
     final positionController = ref.watch(positionProvider(widgetKey));
     final positionControllerManager = ref.read(positionProvider(widgetKey).notifier);
 
@@ -137,6 +141,7 @@ class ResizableImage extends HookConsumerWidget {
                   alignment: Alignment.bottomRight,
                   child: Clickable(
                     onPressed: () {
+                      cakeIndentManager.removeDecoration(decorationType);
                       canvasWidgetsManager.removeWidget(widgetKey);
                       focusedWidgetKeManager.state = null;
                     },

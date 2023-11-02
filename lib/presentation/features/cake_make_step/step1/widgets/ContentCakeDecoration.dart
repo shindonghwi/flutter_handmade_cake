@@ -103,32 +103,32 @@ class ContentCakeDecoration extends HookConsumerWidget {
 
                         final name = deco.first;
 
-                        switch (name) {
-                          case "수국1":
-                            cakeIndentManager.addDecoration("HY1");
-                          case "수국2":
-                            cakeIndentManager.addDecoration("HY2");
-                            break;
-                          case "장미1":
-                            cakeIndentManager.addDecoration("RS1");
-                          case "장미2":
-                            cakeIndentManager.addDecoration("RS2");
-                          case "장미3":
-                            cakeIndentManager.addDecoration("RS3");
-                            break;
-                          case "데이지":
-                            cakeIndentManager.addDecoration("DS1");
-                            break;
-                          case "벚꽃":
-                            cakeIndentManager.addDecoration("CB1");
-                            break;
-                          case "접시꽃":
-                            cakeIndentManager.addDecoration("HH1");
-                            break;
-                          case "백일홍":
-                            cakeIndentManager.addDecoration("CM1");
-                            break;
+                        String getDecorationType(String name) {
+                          switch (name) {
+                            case "수국1":
+                              return "HY1";
+                            case "수국2":
+                              return "HY2";
+                            case "장미1":
+                              return "RS1";
+                            case "장미2":
+                              return "RS2";
+                            case "장미3":
+                              return "RS3";
+                            case "데이지":
+                              return "DS1";
+                            case "벚꽃":
+                              return "CB1";
+                            case "접시꽃":
+                              return "HH1";
+                            case "백일홍":
+                              return "CM1";
+                            default:
+                              return "";
+                          }
                         }
+
+                        cakeIndentManager.addDecoration(getDecorationType(name));
 
                         final widgetKey = "${deco.first}_${DateTime.now().millisecondsSinceEpoch}";
 
@@ -136,8 +136,10 @@ class ContentCakeDecoration extends HookConsumerWidget {
                           ResizableImage(
                             widgetKey: widgetKey,
                             path: deco.second,
+                            decorationType: getDecorationType(name),
                           ),
                           widgetKey,
+                          getDecorationType(name),
                         );
                       },
                       child: Container(),

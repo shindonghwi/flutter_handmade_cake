@@ -11,6 +11,9 @@ import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../provider/CakeIndentProvider.dart';
+import '../provider/RegisterCakeImageProvider.dart';
+
 class MakeCakeCompleteScreen extends HookConsumerWidget {
   const MakeCakeCompleteScreen({super.key});
 

@@ -27,6 +27,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../../components/canvas/ResizableImage.dart';
 import '../provider/CakeIndentProvider.dart';
 import '../provider/CanvasWidgetsProvider.dart';
+import '../provider/RegisterCakeImageProvider.dart';
 import 'widgets/CakeCanvas.dart';
 import 'widgets/ContentCakeDecoration.dart';
 import 'widgets/ContentCakeOption.dart';
@@ -54,6 +55,7 @@ class MakeCakeDrawingScreen extends HookConsumerWidget {
     final cakeSizeManager = ref.read(cakeSizeProvider.notifier);
     final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
     final cakeImagePathManager = ref.read(cakeImagePath.notifier);
+    final cakeOrderManager = ref.read(requestOrderProvider.notifier);
     final isLoading = useState(false);
     final allowScroll = ref.watch(scrollProvider);
     final tabList = ["시트모양", "시트맛", "필링잼", "사이즈"];
@@ -69,6 +71,7 @@ class MakeCakeDrawingScreen extends HookConsumerWidget {
         canvasWidgetsManager.clearAll();
         cakeImagePathManager.state = null;
         cakeIndentManager.init();
+        cakeOrderManager.init();
       });
       return () {
         Future(() {

@@ -92,11 +92,10 @@ class CakeIndentNotifier extends StateNotifier<RequestOrderIndentModel> {
 
     for (RequestOrderIndentDecoration decoration in decorations) {
       if (decoration.type == type) {
-        // Create a new decoration with incremented count
         updatedDecorations.add(decoration.copyWith(count: decoration.count + 1));
         found = true;
       } else {
-        updatedDecorations.add(decoration); // Add the unmodified decoration to the new list
+        updatedDecorations.add(decoration);
       }
     }
 
@@ -107,6 +106,34 @@ class CakeIndentNotifier extends StateNotifier<RequestOrderIndentModel> {
     state = state.copyWith(cake: state.cake.copyWith(decorations: updatedDecorations));
 
     debugPrint("Cake sheet : $state");
+  }
+
+  void removeDecoration(String type) {
+    List<RequestOrderIndentDecoration> decorations = List.from(state.cake.decorations);
+
+    List<RequestOrderIndentDecoration> updatedDecorations = [];
+
+    bool found = false;
+
+    for (RequestOrderIndentDecoration decoration in decorations) {
+      if (decoration.type == type) {
+        found = true;
+
+        if (decoration.count > 1) {
+          updatedDecorations.add(decoration.copyWith(count: decoration.count - 1));
+        }
+      } else {
+        updatedDecorations.add(decoration);
+      }
+    }
+    if (!found) {
+      debugPrint("Decoration type: $type not found!");
+      return;
+    }
+
+    state = state.copyWith(cake: state.cake.copyWith(decorations: updatedDecorations));
+
+    debugPrint("Cake sheet after removing decoration: $state");
   }
 
   List<String> getDecorations() {
@@ -144,6 +171,24 @@ class CakeIndentNotifier extends StateNotifier<RequestOrderIndentModel> {
     return decorations;
   }
 
+  int getDecorationPrice(String decorationName) {
+    if (decorationName.contains("장미")) {
+      return 2000;
+    } else if (decorationName.contains("수국")) {
+      return 5000;
+    } else if (decorationName.contains("백일홍")) {
+      return 1000;
+    } else if (decorationName.contains("접시꽃")) {
+      return 2000;
+    } else if (decorationName.contains("데이지")) {
+      return 1000;
+    } else if (decorationName.contains("벚꽃")) {
+      return 1000;
+    }else{
+      return 0;
+    }
+  }
+
   String getPrice() {
     int price = 0;
 
@@ -179,6 +224,8 @@ class CakeIndentNotifier extends StateNotifier<RequestOrderIndentModel> {
           break;
       }
     }
+
+    debugPrint("decoration price: ${state.cake.size}");
 
     // 케이크 사이즈 가격
     if (state.cake.size == CakeSizeType.One.transText) {

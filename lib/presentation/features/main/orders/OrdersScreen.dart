@@ -154,7 +154,7 @@ class _OrderItem extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 150,
+            height: 140,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -162,7 +162,6 @@ class _OrderItem extends StatelessWidget {
                   width: 140,
                   height: 140,
                   margin: const EdgeInsets.only(left: 24.0),
-                  padding: const EdgeInsets.all(4.0),
                   child: CachedNetworkImage(
                     imageUrl: item.cake.imageUrl,
                     placeholder: (context, url) => SizedBox(
@@ -188,7 +187,7 @@ class _OrderItem extends StatelessWidget {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,

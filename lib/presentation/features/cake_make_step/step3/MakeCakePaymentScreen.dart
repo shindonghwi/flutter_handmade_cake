@@ -19,6 +19,7 @@ import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../provider/CakeFilingProvider.dart';
 import '../provider/CakeFlavorProvider.dart';
@@ -47,12 +48,7 @@ class MakeCakePaymentScreen extends HookConsumerWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         cakeIndentManager.updatePrice(cakeIndentManager.getTotalPrice());
       });
-      return () {
-        Future(() {
-          cakeIndentManager.init();
-          cakeOrderManager.init();
-        });
-      };
+      return null;
     }, []);
 
     useEffect(() {
@@ -115,7 +111,7 @@ class MakeCakePaymentScreen extends HookConsumerWidget {
                       ),
                       _Contact(
                         focusNode: contactFocusNode,
-                        onNextAction: (){
+                        onNextAction: () {
                           destinationFocusNode.requestFocus();
                         },
                         onChanged: (text) {
@@ -125,7 +121,7 @@ class MakeCakePaymentScreen extends HookConsumerWidget {
                       ),
                       _Destination(
                         focusNode: destinationFocusNode,
-                        onNextAction: (){
+                        onNextAction: () {
                           memoFocusNode.requestFocus();
                         },
                         onChanged: (text) {
@@ -344,6 +340,15 @@ class _PaymentInfo extends HookConsumerWidget {
 
     final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
 
+    Widget divider() {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        width: double.infinity,
+        height: 1,
+        color: getColorScheme(context).colorGray100,
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -360,35 +365,38 @@ class _PaymentInfo extends HookConsumerWidget {
             ),
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                "케이크 금액",
+                style: getTextTheme(context).semiBold.copyWith(
+                      fontSize: 16,
+                      color: getColorScheme(context).black,
+                    ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                "맛: ${cakeFlavor.flavorType} / ${cakeFiling.filingType}",
+                style: getTextTheme(context)
+                    .regular
+                    .copyWith(fontSize: 12, color: getColorScheme(context).colorGray800, height: 1.4),
+              ),
+              divider(),
               Row(
-                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "케이크 금액",
-                        style: getTextTheme(context).regular.copyWith(
-                              fontSize: 14,
-                              color: getColorScheme(context).black,
-                            ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "사이즈: ${cakeSize.sizeType}, 맛: ${cakeFlavor.flavorType} / ${cakeFiling.filingType}\n데코레이션: ${cakeIndentManager.getDecorations().join(", ")}",
-                        style: getTextTheme(context)
-                            .regular
-                            .copyWith(fontSize: 10, color: getColorScheme(context).colorGray500, height: 1.4),
-                      ),
-                    ],
+                  Text(
+                    "사이즈: ${cakeSize.sizeType} ",
+                    style: getTextTheme(context)
+                        .regular
+                        .copyWith(fontSize: 12, color: getColorScheme(context).colorGray800, height: 1.4),
                   ),
                   Text(
-                    "${cakeIndentManager.getPrice()}원",
+                    cakeSize == CakeSizeType.One
+                        ? "40,000원"
+                        : cakeSize == CakeSizeType.Two
+                            ? "50,000원"
+                            : "60,000원",
                     style: getTextTheme(context).regular.copyWith(
                           fontSize: 14,
                           color: getColorScheme(context).black,
@@ -396,9 +404,63 @@ class _PaymentInfo extends HookConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              if (cakeIndentManager.getDecorations().isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "데코레이션",
+                                style: getTextTheme(context).regular.copyWith(
+                                      fontSize: 12,
+                                      color: getColorScheme(context).colorGray800,
+                                      height: 1.4,
+                                    ),
+                              ),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12.0, top: 2),
+                                    child: Column(
+                                      children: cakeIndentManager.getDecorations().map((deco) {
+                                        return Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "- $deco",
+                                              style: getTextTheme(context).regular.copyWith(
+                                                  fontSize: 12, color: getColorScheme(context).colorGray500, height: 1.6),
+                                            ),
+                                            Text(
+                                              "${NumberFormat('#,###').format(cakeIndentManager.getDecorationPrice(deco))}원",
+                                              style: getTextTheme(context).regular.copyWith(
+                                                    fontSize: 14,
+                                                    color: getColorScheme(context).black,
+                                                  ),
+                                            ),
+                                          ],
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              divider(),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -406,19 +468,42 @@ class _PaymentInfo extends HookConsumerWidget {
                   Text(
                     "배송비",
                     style: getTextTheme(context).regular.copyWith(
-                          fontSize: 14,
-                          color: getColorScheme(context).black,
-                        ),
+                      fontSize: 12,
+                      color: getColorScheme(context).colorGray800,
+                      height: 1.4,
+                    ),
                   ),
                   Text(
                     "4,900원",
                     style: getTextTheme(context).regular.copyWith(
-                          fontSize: 14,
-                          color: getColorScheme(context).black,
-                        ),
+                      fontSize: 14,
+                      color: getColorScheme(context).black,
+                    ),
                   ),
                 ],
-              )
+              ),
+              divider(),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "총 결제금액",
+                    style: getTextTheme(context).medium.copyWith(
+                      fontSize: 16,
+                      color: getColorScheme(context).colorGray800,
+                      height: 1.4,
+                    ),
+                  ),
+                  Text(
+                    "${NumberFormat('#,###').format(cakeIndentManager.getTotalPrice())}원",
+                    style: getTextTheme(context).regular.copyWith(
+                      fontSize: 14,
+                      color: getColorScheme(context).black,
+                    ),
+                  ),
+                ],
+              ),
             ],
           )
         ],
