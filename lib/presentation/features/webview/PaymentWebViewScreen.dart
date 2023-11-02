@@ -28,7 +28,7 @@ class PaymentWebViewScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    MethodChannel channel = const MethodChannel("결");
+    MethodChannel channel = const MethodChannel("webview_channel");
 
     final isLoading = useState(true);
     final controller = useState<WebViewController?>(null);
@@ -105,6 +105,7 @@ class PaymentWebViewScreen extends HookWidget {
                     });
                     return NavigationDecision.prevent;
                   } else {
+                    Toast.showError(context, "앱 설치 후 이용해주세요");
                     debugPrint("Couldn't launch URL: $uri"); // 로그 추가
                   }
                   return NavigationDecision.prevent;
