@@ -9,7 +9,9 @@ import 'package:handmade_cake/presentation/components/toast/Toast.dart';
 import 'package:handmade_cake/presentation/components/utils/BaseScaffold.dart';
 import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentWebViewScreen extends HookWidget {
@@ -57,24 +59,42 @@ class PaymentWebViewScreen extends HookWidget {
                 lastUrl.value = url;
               },
               onWebResourceError: (error) {
-                debugPrint("WebView error: $error");
+                debugPrint("WebView error: ${error.description}");
+                debugPrint("WebView error: ${error.domain}");
+                debugPrint("WebView error: ${error.errorCode}");
+                debugPrint("WebView error: ${error.errorType}");
+                debugPrint("WebView error: ${error.failingUrl}");
                 controller.value?.reload();
               },
               navigationDelegate: (NavigationRequest request) async {
                 debugPrint("navigationDelegate: ${request.url}");
                 var url = request.url;
+                final uri = Uri.parse(request.url);
 
                 if (url.startsWith('http://') || url.startsWith('https://')) {
                   return NavigationDecision.navigate; // WebView에서 URL 로딩
-                } else if (Platform.isAndroid) {
+                }
+
+                if (Platform.isAndroid) {
                   final shouldOverride = await channel.invokeMethod('getAppUrl', <String, Object>{'url': request.url});
                   if (shouldOverride) {
                     return NavigationDecision.prevent;
                   }
                 } else if (Platform.isIOS) {
-                  final uri = Uri.parse(request.url);
-                  if (await canLaunchUrl(uri)) {
-                    await launchUrl(uri);
+                  if (uri.scheme == 'about' && uri.path == 'blank') {
+                    debugPrint("Skipping special URL: $uri"); // Log
+                    return NavigationDecision.navigate;
+                  }
+
+                  debugPrint("Attempting to launch URL: $uri"); // 로그 추가
+
+                  if (await canLaunchUrlString(url)) {
+                    try {
+                      await launchUrlString(url);
+                    } catch (e) {
+                      print("Error launching URL: $e");
+                    }
+
                     Future.delayed(const Duration(seconds: 1), () {
                       if (lastUrl.value != null) {
                         controller.value?.loadUrl(lastUrl.value!);
@@ -82,8 +102,7 @@ class PaymentWebViewScreen extends HookWidget {
                     });
                     return NavigationDecision.prevent;
                   } else {
-                    // Handle the scenario when the URL cannot be launched
-                    debugPrint("Couldn't launch ${request.url}");
+                    debugPrint("Couldn't launch URL: $uri"); // 로그 추가
                   }
                   return NavigationDecision.prevent;
                 }
