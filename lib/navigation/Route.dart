@@ -4,8 +4,10 @@ import 'package:handmade_cake/presentation/features/cake_make_step/step3/MakeCak
 import 'package:handmade_cake/presentation/features/cake_make_step/step4/MakeCakeCompleteScreen.dart';
 import 'package:handmade_cake/presentation/features/detail/DetailOrderScreen.dart';
 import 'package:handmade_cake/presentation/features/main/MainScreen.dart';
+import 'package:handmade_cake/presentation/features/main/home/widgets/SecondTab.dart';
 import 'package:handmade_cake/presentation/features/main/mypage/MyPageScreen.dart';
 import 'package:handmade_cake/presentation/features/main/orders/OrdersScreen.dart';
+import 'package:handmade_cake/presentation/features/sample_cake/SampleCakeScreen.dart';
 import 'package:handmade_cake/presentation/features/sign_in/SignInScreen.dart';
 import 'package:handmade_cake/presentation/features/signup/SignUpScreen.dart';
 import 'package:handmade_cake/presentation/features/splash/SplashScreen.dart';
@@ -19,6 +21,7 @@ enum RoutingScreen {
   SignIn(route: "/signin"), // 로그인
   SignUp(route: "/signup"), // 회원가입
   Main(route: "/main"), // 메인
+  SampleCake(route: "/sample/cake"), // 샘플 케이크 리스트
   Orders(route: "/orders"), // 주문 정보
   MyPage(route: "/mypage"), // 내 정보
   Withdrawal(route: "/withdrawal"), // 회원탈퇴 화면
@@ -41,6 +44,7 @@ enum RoutingScreen {
       RoutingScreen.SignIn.route: (context) => const SignInScreen(),
       RoutingScreen.SignUp.route: (context) => const SignUpScreen(),
       RoutingScreen.Main.route: (context) => const MainScreen(),
+      RoutingScreen.SampleCake.route: (context) => const SampleCakeScreen(),
       RoutingScreen.Orders.route: (context) => const OrdersScreen(),
       RoutingScreen.MyPage.route: (context) => const MyPageScreen(),
       RoutingScreen.Withdrawal.route: (context) => const WithdrawalScreen(),
@@ -64,6 +68,8 @@ enum RoutingScreen {
       return const SignUpScreen();
     } else if (route == RoutingScreen.Main.route) {
       return const MainScreen();
+    } else if (route == RoutingScreen.SampleCake.route) {
+      return const SampleCakeScreen();
     } else if (route == RoutingScreen.Orders.route) {
       return const OrdersScreen();
     } else if (route == RoutingScreen.MyPage.route) {

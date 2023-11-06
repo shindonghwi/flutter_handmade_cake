@@ -167,6 +167,28 @@ class SignInScreen extends HookConsumerWidget {
                           nextSlideScreen(RoutingScreen.SignUp.route),
                         );
                       },
+                    ),
+                    const SizedBox(height: 12),
+                    Clickable(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "여기를 눌러 제작된 케이크를 먼저 구경해보세요!",
+                            style: getTextTheme(context).medium.copyWith(
+                                  color: getColorScheme(context).colorGray500,
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                ),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          nextSlideScreen(RoutingScreen.SampleCake.route),
+                        );
+                      },
                     )
                   ],
                 ),
