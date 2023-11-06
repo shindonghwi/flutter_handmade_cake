@@ -14,18 +14,21 @@ class ContentCakeSheet extends HookConsumerWidget {
     final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
 
     final List<String> sheets = [
-      "assets/imgs/sheet_rect_yellow.png",
+      "assets/imgs/sheet_circle_red.png",
+      "assets/imgs/sheet_circle_white.png",
+      "assets/imgs/sheet_circle_yellow.png",
       "assets/imgs/sheet_circle_blue.png",
       "assets/imgs/sheet_circle_green.png",
-      "assets/imgs/sheet_heart_blue.png",
-      "assets/imgs/sheet_heart_green.png",
       "assets/imgs/sheet_heart_red.png",
       "assets/imgs/sheet_heart_white.png",
       "assets/imgs/sheet_heart_yellow.png",
+      "assets/imgs/sheet_heart_blue.png",
+      "assets/imgs/sheet_heart_green.png",
+      "assets/imgs/sheet_rect_red.png",
+      "assets/imgs/sheet_rect_white.png",
+      "assets/imgs/sheet_rect_yellow.png",
       "assets/imgs/sheet_rect_blue.png",
       "assets/imgs/sheet_rect_green.png",
-      "assets/imgs/sheet_rect_red.png",
-      "assets/imgs/sheet_rect_white.png"
     ];
 
     return ListView.separated(
@@ -35,26 +38,25 @@ class ContentCakeSheet extends HookConsumerWidget {
         final sheet = sheets[index];
 
         var sheetKey = "SH";
-        if (sheet.contains("rect")){
+        if (sheet.contains("rect")) {
           sheetKey += "S";
-        } else if (sheet.contains("circle")){
+        } else if (sheet.contains("circle")) {
           sheetKey += "C";
-        } else if (sheet.contains("heart")){
+        } else if (sheet.contains("heart")) {
           sheetKey += "H";
         }
 
-        if (sheet.contains("white")){
+        if (sheet.contains("white")) {
           sheetKey += "W";
-        } else if (sheet.contains("yellow")){
+        } else if (sheet.contains("yellow")) {
           sheetKey += "Y";
-        } else if (sheet.contains("blue")){
+        } else if (sheet.contains("blue")) {
           sheetKey += "S";
-        } else if (sheet.contains("green")){
+        } else if (sheet.contains("green")) {
           sheetKey += "G";
-        } else if (sheet.contains("red")){
+        } else if (sheet.contains("red")) {
           sheetKey += "P";
         }
-
 
         return Clickable(
           onPressed: () {
