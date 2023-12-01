@@ -21,7 +21,7 @@ class CakeCanvas extends HookConsumerWidget {
         return Container(
           margin: const EdgeInsets.only(top: 4, bottom: 20),
           child: AspectRatio(
-            aspectRatio: 342 / 260,
+            aspectRatio: 322 / 220,
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(

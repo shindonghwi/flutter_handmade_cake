@@ -140,7 +140,7 @@ class _CakeInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 32.0),
           child: AspectRatio(
-            aspectRatio: 342 / 260,
+            aspectRatio: 322 / 220,
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(

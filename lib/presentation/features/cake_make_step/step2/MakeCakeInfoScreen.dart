@@ -46,7 +46,7 @@ class MakeCakeInfoScreen extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AspectRatio(
-                aspectRatio: 342 / 260,
+                aspectRatio: 322 / 220,
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(

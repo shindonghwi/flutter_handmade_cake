@@ -184,7 +184,7 @@ class CakeIndentNotifier extends StateNotifier<RequestOrderIndentModel> {
       return 1000;
     } else if (decorationName.contains("벚꽃")) {
       return 1000;
-    }else{
+    } else {
       return 0;
     }
   }
@@ -239,9 +239,9 @@ class CakeIndentNotifier extends StateNotifier<RequestOrderIndentModel> {
     return formatter.format(price);
   }
 
-  int getTotalPrice() {
+  int getTotalPrice({bool isDelivery = true}) {
     String price = getPrice().replaceAll(RegExp('[^0-9]'), '');
-    return int.parse(price) + 4900; // + 배송비
+    return int.parse(price) + (isDelivery ? 4900 : 0); // + 배송비
   }
 
   void updateCakeSheet(String sheetKey) {

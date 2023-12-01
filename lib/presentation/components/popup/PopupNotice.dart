@@ -81,6 +81,7 @@ class PopupNotice extends HookWidget {
                           style: getTextTheme(context).medium.copyWith(
                                 fontSize: 12,
                                 color: getColorScheme(context).black,
+                            overflow: TextOverflow.visible,
                               ),
                         ),
                       ),

@@ -7,7 +7,9 @@ import 'package:handmade_cake/presentation/ui/colors.dart';
 import 'package:handmade_cake/presentation/ui/typography.dart';
 import 'package:handmade_cake/presentation/utils/Common.dart';
 import 'package:handmade_cake/presentation/utils/dto/Pair.dart';
+import 'package:handmade_cake/presentation/utils/dto/Triple.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../provider/CanvasWidgetsProvider.dart';
 
@@ -19,16 +21,16 @@ class ContentCakeDecoration extends HookConsumerWidget {
     final canvasWidgetsRead = ref.read(canvasWidgetsProvider.notifier);
     final cakeIndentManager = ref.read(cakeIndentProvider.notifier);
 
-    final List<Pair<String, String>> decorations = [
-      Pair("수국1", "assets/imgs/deco1.png"), // 1
-      Pair("수국2", "assets/imgs/deco2.png"), // 1
-      Pair("장미1", "assets/imgs/deco3.png"), // 3
-      Pair("장미2", "assets/imgs/deco4.png"), // 3
-      Pair("장미3", "assets/imgs/deco5.png"), // 3
-      Pair("데이지", "assets/imgs/deco6.png"), // 4
-      Pair("벚꽃", "assets/imgs/deco7.png"), // 1
-      Pair("접시꽃", "assets/imgs/deco8.png"), // 2
-      Pair("백일홍", "assets/imgs/deco9.png"), // 4
+    final List<Triple<String, String, int>> decorations = [
+      Triple("수국1", "assets/imgs/deco1.png", 5000), // 1
+      Triple("수국2", "assets/imgs/deco2.png", 5000), // 1
+      Triple("장미1", "assets/imgs/deco3.png", 2000), // 3
+      Triple("장미2", "assets/imgs/deco4.png", 2000), // 3
+      Triple("장미3", "assets/imgs/deco5.png", 2000), // 3
+      Triple("데이지", "assets/imgs/deco6.png", 1000), // 4
+      Triple("벚꽃", "assets/imgs/deco7.png", 1000), // 1
+      Triple("접시꽃", "assets/imgs/deco8.png", 2000), // 2
+      Triple("백일홍", "assets/imgs/deco9.png", 1000), // 4
     ];
 
     return Column(
@@ -53,7 +55,7 @@ class ContentCakeDecoration extends HookConsumerWidget {
           ),
         ),
         Container(
-          height: 80,
+          height: 110,
           margin: const EdgeInsets.only(top: 12.0, bottom: 16.0),
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
@@ -85,6 +87,16 @@ class ContentCakeDecoration extends HookConsumerWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           deco.first,
+                          style: getTextTheme(context).medium.copyWith(
+                                fontSize: 12,
+                                color: getColorScheme(context).colorPrimary500,
+                              ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          "${NumberFormat('#,###').format(deco.third)}원",
                           style: getTextTheme(context).medium.copyWith(
                                 fontSize: 12,
                                 color: getColorScheme(context).colorPrimary500,
