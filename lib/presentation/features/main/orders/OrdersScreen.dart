@@ -154,7 +154,7 @@ class _OrderItem extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 140,
+            height: 160,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
