@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>수제 케이크</string>
+	<string>메이크모먼트</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,23 +15,80 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>handmade_cake</string>
+	<string>메이크모먼트</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>make.moment.handmadecake</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>makemoment</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>ispmobile</string>
+		<string>kb-acp</string>
+		<string>newliiv</string>
+		<string>kbbank</string>
+		<string>lotteappcard</string>
+		<string>lottesmartpay</string>
+		<string>hdcardappcardansimclick</string>
+		<string>smhyundaiansimclick</string>
+		<string>mpocket.online.ansimclick</string>
+		<string>scardcertiapp</string>
+		<string>shinhan-sr-ansimclick</string>
+		<string>smshinhanansimclick</string>
+		<string>nhappcardansimclick</string>
+		<string>nhallonepayansimclick</string>
+		<string>nonghyupcardansimclick</string>
+		<string>cloudpay</string>
+		<string>citispay</string>
+		<string>citicardappkr</string>
+		<string>citimobileapp</string>
+		<string>kftc-bankpay</string>
+		<string>paypin</string>
+		<string>payco</string>
+		<string>paycoapplogin</string>
+		<string>tswansimclick</string>
+		<string>bankwallet</string>
+		<string>uppay</string>
+		<string>Hanaskcardmobileportal</string>
+		<string>Callonlinepay</string>
+		<string>Lpayapp</string>
+		<string>Wooripay</string>
+		<string>hanawalletmembers</string>
+		<string>com.wooricard.wcard</string>
+		<string>hanamopmoasign</string>
+		<string>NewSmartPib</string>
+		<string>liivbank</string>
+		<string>supertoss</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>UIStatusBarHidden</key>
+	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:handmade_cake/app/HandMadeCakeApp.dart';
-import 'package:handmade_cake/presentation/ui/theme.dart';
+
+import '../ui/theme.dart';
 
 AppLocalizations getAppLocalizations(BuildContext context) {
   return AppLocalizations.of(context);

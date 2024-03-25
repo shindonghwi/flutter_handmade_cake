@@ -25,9 +25,9 @@ PageRoute nextSlideScreen(String route, {dynamic parameter}) {
 
 PageRoute nextFadeInOutScreen(String route, {dynamic parameter}) {
   return PageRouteBuilder(
-    transitionDuration: const Duration(milliseconds: 250),
+    transitionDuration: const Duration(milliseconds: 500),
     pageBuilder: (context, animation, secondaryAnimation) => RoutingScreen.getScreen(route, parameter: parameter),
-    reverseTransitionDuration: const Duration(milliseconds: 250),
+    reverseTransitionDuration: const Duration(milliseconds: 500),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return FadeTransition(
         opacity: animation,

@@ -2,7 +2,7 @@ name: handmade_cake
 description: Craete Handmade Cake .Make Moment
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+6
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -24,8 +24,17 @@ dependencies:
   http: ^0.13.6
   shared_preferences: ^2.1.1
   package_info_plus: ^4.0.2
-  url_launcher: ^6.1.11
+  url_launcher: ^6.0.13
   app_tracking_transparency: ^2.0.4
+  cached_network_image: ^3.3.0
+  device_info_plus: ^9.0.3
+  connectivity_plus: ^4.0.2
+  photo_view: ^0.14.0
+  path_provider: ^2.1.1
+  flutter_image_compress: ^2.1.0
+  webview_flutter: 3.0.4
+  uni_links: ^0.5.1
+  flutter_inappwebview: ^5.8.0
 
 dev_dependencies:
   flutter_test:
@@ -44,33 +53,39 @@ flutter:
     - assets/fonts/
 
   fonts:
-    - family: NotoSansKR
+    - family: Pretendard
       fonts:
-        - asset: assets/fonts/NotoSansKR-Thin.otf
+        - asset: assets/fonts/Pretendard-Thin.otf
           weight: 100
-        - asset: assets/fonts/NotoSansKR-Light.otf
+        - asset: assets/fonts/Pretendard-ExtraLight.otf
+          weight: 200
+        - asset: assets/fonts/Pretendard-Light.otf
           weight: 300
-        - asset: assets/fonts/NotoSansKR-Regular.otf
+        - asset: assets/fonts/Pretendard-Regular.otf
           weight: 400
-        - asset: assets/fonts/NotoSansKR-Medium.otf
+        - asset: assets/fonts/Pretendard-Medium.otf
           weight: 500
-        - asset: assets/fonts/NotoSansKR-Bold.otf
+        - asset: assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Pretendard-Bold.otf
           weight: 700
-        - asset: assets/fonts/NotoSansKR-Black.otf
+        - asset: assets/fonts/Pretendard-ExtraBold.otf
+          weight: 800
+        - asset: assets/fonts/Pretendard-Black.otf
           weight: 900
 
 
-#flutter_native_splash:
-#  full: true
-#  image: assets/imgs/image_splash.png
-#  image_dark: assets/imgs/image_splash.png
-#  color: "#FFFFFF"
-#  color_dark: "#FFFFFF"
-#
-#  # Android 12 이상 버전에서 적용
-#  android_12:
-#    full: true
-#    image: assets/imgs/image_splash.png
-#    image_dark: assets/imgs/image_splash.png
-#    color: "#FFFFFF"
-#    color_dark: "#FFFFFF"
+flutter_native_splash:
+  full: true
+  image: assets/imgs/image_splash.png
+  image_dark: assets/imgs/image_splash.png
+  color: "#01205F"
+  color_dark: "#01205F"
+
+  # Android 12 이상 버전에서 적용
+  android_12:
+    full: true
+    image: assets/imgs/image_splash.png
+    image_dark: assets/imgs/image_splash.png
+    color: "#01205F"
+    color_dark: "#01205F"
